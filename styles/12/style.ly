@@ -2,13 +2,6 @@
 %% Demonstrate a notation style of Ekmelily
 %% for 12-EDO
 %%
-%% This program is free software.
-%% Use, redistribute, and modify it as you wish.
-%%
-%% File: style.ly
-%% Author: Thomas Richter <thomas-richter@aon.at>
-%% Latest revision: 2024-03-03
-%%
 
 \version "2.19.0"
 
