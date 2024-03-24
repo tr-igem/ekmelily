@@ -1,7 +1,7 @@
 Ekmelily
 ========
 
-Ekmelily is an extension for [LilyPond][http://lilypond.org/] that supports variable
+Ekmelily is an extension for [LilyPond](http://lilypond.org/) that supports variable
 accidentals and key signatures for the notation of microtonal music
 in several equal-temperament tunings - 12, 19, 24, 31, 36, 48, 53, 72-EDO -
 and in 5-limit JI.
@@ -22,4 +22,4 @@ The folder *ly* contains the include files.
     e.g. `LILYPOND/usr/share/lilypond/current/ly`, with `LILYPOND`
     meaning the installation folder of LilyPond.
 
-*   Optionally install a font, e.g. [Ekmelos][https://github.com/tr-igem/ekmelos].
+*   Optionally install a font, e.g. [Ekmelos](https://github.com/tr-igem/ekmelos).
