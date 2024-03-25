@@ -2,12 +2,9 @@
 %% Common definitions for "style.ly" files
 %% demonstrating a notation style of Ekmelily
 %%
+%% Written by Thomas Richter <thomas-richter@aon.at>
 %% This program is free software.
 %% Use, redistribute, and modify it as you wish.
-%%
-%% File: styledefs.ily
-%% Author: Thomas Richter <thomas-richter@aon.at>
-%% Latest revision: 2024-03-10
 %%
 
 \version "2.19.0"
