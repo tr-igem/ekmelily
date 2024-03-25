@@ -2,8 +2,7 @@ Ekmelily Notation Styles
 ========================
 
 This is a collection of files "TUNING/style-NOTATION.pdf" which demonstrate
-all predefined notation styles in all available tunings of Ekmelily,
-as well as some user-defined notation styles. Each file includes:
+notation styles in the available tunings of Ekmelily. Each file includes:
 
 *   A list of all accidental symbols used in the notation style,
     together with the represented tone fraction,
