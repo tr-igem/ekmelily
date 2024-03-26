@@ -14,11 +14,11 @@
 %%
 %%
 %% File: ekmel-53.ily  -  Include file for the 53-EDO tuning
-%% Latest revision: 2024-03-12
+%% Latest revision: 2024-03-26
+%%
 %%
 %% This file is mainly intended for Turkish music based on the
 %% Holdrian comma Hc = 1200 / 53
-%%
 %%
 %% Sources:
 %%
@@ -81,24 +81,14 @@ ekmLanguages = #'(
   (#x45 ft)))
 
 ;; THM (Turkish folk music) names
+;; Some combined names are unused
 (thm . (
-  (do 0 . 0)
-  (do-s-three 0 . #x20)
-  (re-b-four 1 . #x25)
-  (re 1 . 0)
-  (mi-b 2 . #x29)
-  (mi-b-two 2 . #x17)
-  (mi 2 . 0)
-  (fa 3 . 0)
-  (fa-s-three 3 . #x20)
-  (sol-b-four 4 . #x25)
-  (sol 4 . 0)
-  (la-b 5 . #x29)
-  (la-b-two 5 . #x17)
-  (la 5 . 0)
-  (si-b 6 . #x29)
-  (si-b-two 6 . #x17)
-  (si 6 . 0)))
+    2
+    ()
+    (#x17 -b-two)
+    (#x20 -s-three)
+    (#x25 -b-four)
+    (#x29 -b)))
 
 ;; KTM (Turkish classical music) names
 (ktm . (
@@ -141,20 +131,18 @@ ekmLanguages = #'(
   (#x25 ffff)))
 
 ;; English number names
-;; Some combinations with scale names are unused (could ne excluded):
-;; fb-one cb-two fb-two bs-three cb-three fb-three
-;; es-four bs-four cb-four fb-four
+;; Some combined names are unused
 (number . (
   0
   ()
   (#x12 s-one)
-  (#x13 b-one) ;; f
+  (#x13 b-one)
   (#x16 s-two)
-  (#x17 b-two) ;; c f
-  (#x20 s-three) ;; b
-  (#x21 b-three) ;; c f
-  (#x24 s-four) ;; e b
-  (#x25 b-four))) ;; c f
+  (#x17 b-two)
+  (#x20 s-three)
+  (#x21 b-three)
+  (#x24 s-four)
+  (#x25 b-four)))
 )
 
 
