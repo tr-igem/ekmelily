@@ -1,0 +1,194 @@
+ChangeLog for the Ekmelily project
+==================================
+
+Version 0.1 (1 September 2013)
+- Initial release.
+
+Version 1.0 (22 June 2015)
+- First SMuFL compliant release with three notation styles for twelfth-tones
+  (72-EDO): arrow, rhm, sims.
+- New Ekmelos version 1.0.
+
+Version 1.1 (25 July 2015)
+- Added ten new notation styles for twelfth-, sixth-, and quarter-tones
+  (72-,36-,24-EDO): sag, msag, wys, go, gos, gost, stz, stc, stvt, bos.
+- New Ekmelos version 1.1.
+
+Version 1.2 (14 January 2016)
+- Added eight new notation styles for quarter- and third-tones (24-,18-EDO):
+  pers, bus, wstc, stp, four, stg, xen, fern.
+- New command line option "ekmelic-style" to specify the default predefined
+  notation style.
+- New Ekmelos version 1.2.
+
+Version 1.3 (27 January 2016)
+- Support for cautionary accidentals in parenthesis (cautionary styles).
+- New Ekmelos version 1.3.
+
+Version 1.4 (1 February 2016)
+- Support for user-defined notation styles.
+
+Version 1.5 (5 February 2016)
+- Revised support for user-defined notation styles with the new command
+  "\ekmelicUserStyle".
+- Removed the commands "\extraNatural" and "\omitAccidental" (now in ekmecoll.ily).
+
+Version 1.6 (1 April 2016)
+- Added and rectified note names for A and E with suffixes for decreasing
+  alterations, e.g. "ases" and "aeses" for "asas".
+
+Version 1.7 (8 August 2016)
+- Removed some unnecessary predefined notation styles (introduced in version 1.2):
+  pers, bus, wstc, stp, stg, xen (but not four and fern);
+  since they represent just freely invented combinations of individual
+  accidental symbols. User-defined styles should be created instead.
+
+Version 1.8 (13 September 2016)
+- Support for other fonts than Ekmelos.
+- New Ekmelos version 1.4.
+
+Version 1.9 (28 September 2016)
+- Support for note names in different languages by separate language files.
+  Available are German ("ekmel-de.ily") and English ("ekmel-en.ily").
+- New command line option "ekmelic-font" to select a font.
+- New Ekmelos version 1.5.
+
+Version 1.10 (27 January 2017)
+- Extended Ferneyhough notation (fern) with quarter-tone accidentals.
+- Exchange of single accidentals for "combined" quarter-tone degrees with
+  composite symbols in the notation styles gost, stz, stc, and stvt.
+
+Version 1.11 (19 October 2017)
+- Adapted for LilyPond version 2.19.22 or higher (as of issue 4422,
+  define-music-function, define-void-function etc. have no parser and
+  location arguments).
+- Removed override for KeySignature accidentals.
+
+Version 1.12 (22 October 2017)
+- Adapted selection of english pitch names for LilyPond version 2.19.22
+  or higher.
+- Modified Sims notation (sims) without use of ligatures, i.e. the
+  optional glyphs U+F606-U+F615 which are defined only in the Ekmelos font.
+
+Version 2.0 (13 September 2018)
+- Modified padding of composite accidentals using HAIR SPACE (U+200A)
+  instead of assuming a left/right bearing (which is now 0 in Ekmelos 2.0
+  according to SMuFL).
+
+Version 2.1 (28 September 2018)
+- Fixed missing accidentals on tied notes after line break.
+- Revised tables of predefined notation styles and pitch names with
+  literal alterations instead of Scheme symbols (except *-EQUIV).
+- Renamed internal procedures: char-list->string to ekmelic-list->string,
+  ekmelic-acc-cautionary to ekmelic-acc-par.
+
+Version 2.2 (15 November 2018)
+- Fixed too small font size of accidentals on grace notes (by overriding
+  the definitions from grace-init.ly).
+
+Version 3.0 (8 January 2019)
+- Added support for different tunings provided by separate include files.
+  Available are 12, 19, 24, 31, 36, 48, and 72-EDO.
+- Added Arabic and Persian notation for 24-EDO.
+
+Version 3.1 (7 June 2020)
+- Added support for key signatures.
+- ekmel-24.ily: Extended keyAlterationOrder with quarter-tones.
+- ekmel-arabic.ily: New file for Arabic scores (24-EDO) incl. maqamat.
+
+Version 3.2 (14 August 2020)
+- Modified padding of composite accidentals without HAIR SPACE (U+200A).
+- Natural sign for restore and key cancellation depending on notation
+  style instead of hard-coded accidentalNatural (U+E261).
+
+Version 3.3 (16 August 2020)
+- Removed overridden definitions for grace notes (no longer required
+  with the new accidental stencils).
+
+Version 3.4 (26 December 2020)
+- ekmel-24.ily: Added Hába notation for quarter-tones.
+- ekmel-36.ily: Added Hába notation for sixth-tones.
+- ekmel.ily: Added Hába notation for twelfth-tones.
+
+Version 3.5 (1 April 2021)
+- ekmel-24.ily: Hába notation with SMuFL glyphs U+EE64 - U+EE69
+  instead of U+F672 - U+F677.
+  Default notation is "stc" (Stein / Couper).
+
+Version 3.6 (15 May 2021)
+- Revised language tables (note names) according to LilyPond 2.22.
+- Added support for alias language names.
+- Added native language names "català", "español", "português".
+- Removed some unusual German note names (ee-, ae-).
+- Removed written out English note names (flat, sharp, flatflat, sharpsharp).
+- ekmel-24.ily: Added languages "catalan", "norsk", "suomi", "svenska", "vlaams".
+- ekmel-31.ily: Removed incomplete languages "english", "catalan",
+  "norsk", "suomi", "svenska", "vlaams".
+- ekmel-36.ily: Added language "nederlands".
+- ekmel.ily: Added language "nederlands".
+
+Version 3.7 (17 May 2021)
+- ekmel-24.ily: Changed some quarter-tone names of "suomi".
+- ekmel-36.ily: Added language "norsk", "suomi", "svenska".
+- ekmel.ily: Added language "norsk", "suomi", "svenska".
+
+Version 3.8 (28 February 2022)
+- ekmel.ily: Added Hesse notation for 72-EDO.
+
+Version 3.9 (16 June 2022)
+- Added "ekmel-53.ily" with note names and notations for Turkish music.
+
+Version 3.10 (30 June 2022)
+- Added support for alias notation names.
+- ekmel-53.ily: Added diatonic notation "dia".
+- ekmel.ily: Added Gould + Stein / Couper notation "gostc".
+  Renamed Gould + Stein / Zimmermann notation to "gostz". "gost" is now
+  an alias name.
+
+Version 3.11 (13 August 2023)
+- ekmel-main.ily: Added support for markup to define accidentals.
+
+Version 3.12 (16 August 2023)
+- ekmel-main.ily: Added command "\ekmelic-elem".
+- ekmel-48.ily: Added language "nederlands".
+
+Version 3.13 (20 August 2023)
+- ekmel-main.ily: Added symbols for all notation styles:
+  "leftparen", "rightparen" for cautionary parentheses;
+  "default" for default accidental.
+- ekmel-main.ily: Added notation style "void".
+- ekmel-main.ily: Enhanced "\ekmelic-elem" to accept any markup.
+
+2023-09-13:
+- ekmel-main.ily: Added command "\ekmelic-table".
+
+2023-09-15:
+- ekmel-main.ily: Fixed wrong size of accidentals for grace notes,
+  trill pitch, ambitus, ossia, etc., in "(ekmelic-acc)".
+
+2023-12-18:
+- ekmel-main.ily: Added command "\ekmelic-font-name".
+
+2024-02-22:
+- Added "ekmel-he.ily" for 5-limit JI in Extended Helmholtz-Ellis notation.
+
+2024-03-08:
+- ekmel-main.ily: Added support for a new format of smaller source
+  language tables, generating note names when the language is selected.
+- Changed default language to "nederlands" as in LilyPond,
+  except for "ekmel-53.ily" and "ekmel-arabic.ily".
+- Added "ekmel-5ji.ily" for 5-limit JI, replacing "ekmel-he.ily".
+- ekmel-48.ily: Added notation style "gostz".
+
+2024-03-12:
+- Changed all source language tables to new format, except for
+  "thm" and "ktm" in "ekmel-53.ily".
+- ekmel-main.ily: Added support for NoteNames context, with extended
+  formats through property "printAccidentalNames".
+- ekmel-main.ily: Added commands "\ekmelic-fraction-small"
+  and "\ekm-fraction".
+- ekmel-main.ily: Fixed buggy command "\ekmelic-acc" for empty
+  accidental definitions (as in "ekmel-53.ily").
+
+2024-03-26:
+- Changed source language table "thm" to new format.
