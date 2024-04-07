@@ -21,6 +21,7 @@
 % \ekmelicStyle haba
 
 \ekmelicOutputSuffix
+\pointAndClickOff
 
 
 \paper {
