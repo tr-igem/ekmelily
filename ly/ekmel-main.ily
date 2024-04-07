@@ -14,7 +14,7 @@
 %%
 %%
 %% File: ekmel-main.ily  -  Main include file
-%% Latest revision: 2024-03-12
+%% Latest revision: 2024-04-07
 %%
 
 \version "2.19.22"
@@ -31,6 +31,13 @@
 
 #(define (ekm:pure-alter alt)
   (if (ekm:enheq? alt) (- (abs alt) EKM-ALTER-ENHEQ) (abs alt)))
+
+
+%% Font
+
+#(define ekm:font-name #f)
+#(define ekm:font-size 5)
+#(define ekm:draw-paths #f)
 
 
 %% Tuning
@@ -152,19 +159,19 @@ ekmScaleNames = #'#(
 #(define (ekm:elem->markup l)
   (map (lambda (e)
     (cond
-      ((integer? e) (ly:wide-char->utf-8 e))
-      ((char? e) (ly:wide-char->utf-8 (char->integer e)))
+      ((integer? e)
+        (if ekm:draw-paths e (ly:wide-char->utf-8 e)))
+      ((char? e)
+        (if ekm:draw-paths
+          (char->integer e)
+          (ly:wide-char->utf-8 (char->integer e))))
       ((markup? e) e)
       (else empty-markup)))
     l))
 
 #(define ekm:notation-name "")
 #(define ekm:notation '())
-
-#(define EKM-NOTATION `(
-  (leftparen . ,(ekm:elem->markup '(#xE26A)))
-  (rightparen . ,(ekm:elem->markup '(#xE26B)))
-  (default)))
+#(define EKM-NOTATION #f)
 
 #(define (ekm:notation-table style)
   (let ((n (or (assq-ref ekmNotations (string->symbol style))
@@ -199,19 +206,6 @@ ekmScaleNames = #'#(
     (set! ekm:notation (append t r EKM-NOTATION))))
 
 
-%% Font
-
-#(define ekm:font-name
-  (let ((font (ly:get-option 'ekmelic-font)))
-    (if font
-      (symbol->string font)
-      (if (and (defined? 'ekmelicFont) (string? ekmelicFont))
-        ekmelicFont
-        "Ekmelos"))))
-
-#(define ekm:font-size 5)
-
-
 %% Main procs (stencils)
 
 #(define-markup-command (ekmelic-acc layout props alt rst par)
@@ -230,7 +224,9 @@ ekmScaleNames = #'#(
                (font-name . ,ekm:font-name))
               props)
             m)
-          (interpret-markup layout props m))
+        (if (integer? m)
+          (ekm-path-stencil m font-size 0 #t)
+          (interpret-markup layout props m)))
         0.12))
       empty-stencil
       (if rst
@@ -340,12 +336,17 @@ ekmelicOutputSuffix =
 
 #(define-markup-command (ekmelic-elem layout props elem)
   (ekm:elem?)
-  (interpret-markup layout
-    (cons
-      `((font-size . ,ekm:font-size)
-        (font-name . ,ekm:font-name))
-      props)
-    (car (ekm:elem->markup (list elem)))))
+  (let ((e (car (ekm:elem->markup (list elem)))))
+    (if (string? e)
+      (interpret-markup layout
+        (cons
+          `((font-size . ,ekm:font-size)
+            (font-name . ,ekm:font-name))
+          props)
+        e)
+    (if (integer? e)
+      (ekm-path-stencil e font-size 0 #t)
+      (interpret-markup layout props e)))))
 
 %% Variant of \fraction
 %% scm/lily/define-markup-commands.scm
@@ -490,12 +491,26 @@ ekmelicOutputSuffix =
 
 %% Initializations
 
+#(let* ((f (or (ly:get-option 'ekmfont) (ly:get-option 'ekmelic-font)))
+        (f (if f (symbol->string f)
+           (if (defined? 'ekmFont) ekmFont
+           (if (defined? 'ekmelicFont) ekmelicFont ""))))
+        (p (string-suffix? "#" f))
+        (f (if p (string-drop-right f 1) f)))
+  (set! ekm:font-name (if (string-null? f) "Ekmelos" f))
+  (set! ekm:draw-paths (and p (defined? 'ekm-path-stencil))))
+
 #(let ((s (assv-ref ekmTuning -1)))
   (ly:set-default-scale
     (ly:make-scale
       (if s (list->vector s) #(0 1 2 5/2 7/2 9/2 11/2)))))
 
 #(ekm:set-language (symbol->string (caar ekmLanguages)))
+
+#(set! EKM-NOTATION `(
+  (leftparen . ,(ekm:elem->markup '(#xE26A)))
+  (rightparen . ,(ekm:elem->markup '(#xE26B)))
+  (default)))
 
 #(ekm:set-notation (symbol->string
   (or (ly:get-option 'ekmelic-style) (caar ekmNotations))))
