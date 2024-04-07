@@ -5,9 +5,12 @@
 
 \version "2.24.0"
 
-% ekmelicFont = "Bravura"
+% ekmFont = "Bravura"
+% ekmFont = "#"
 
+% \include "../../../Ekmelos/ly/ekmelos-paths.ily"
 \include "ekmel.ily"
+\language "deutsch"
 
 % \ekmelicStyle arrow
 % \ekmelicStyle rhm
@@ -23,6 +26,7 @@
 % \ekmelicStyle haba
 
 \ekmelicOutputSuffix
+\pointAndClickOff
 
 
 \paper {
