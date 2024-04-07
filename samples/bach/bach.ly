@@ -9,7 +9,7 @@
 
 \version "2.24.0"
 
-% ekmelicFont = "Bravura"
+% ekmFont = "Bravura"
 \include "ekmel-24.ily"
 
 % \ekmelicStyle stc
@@ -24,6 +24,7 @@
 % \ekmelicStyle haba
 
 \ekmelicOutputSuffix
+\pointAndClickOff
 
 
 \paper {
