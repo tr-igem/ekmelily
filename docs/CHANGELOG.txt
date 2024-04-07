@@ -192,3 +192,9 @@ Version 3.13 (20 August 2023)
 
 2024-03-26:
 - Changed source language table "thm" to new format.
+
+2024-04-07:
+- ekmel-main.ily: Added support to draw paths instead of font glyphs.
+  Changed "\ekmelic-acc", "\ekmelic-elem", and "(ekm:elem->markup)"
+  for paths.
+- New variable "ekmFont" and option "ekmfont" to select a font.
