@@ -212,7 +212,7 @@
 %-----------------------------------------------------------------------
 
 %% Stein / Grisey notation (24-EDO)
-%% Three-quarter-tones flat symbol with double stem after Gérard Grisey,
+%% Three-quarter-tones flat symbol with double stem after GÃ©rard Grisey,
 %% completed with the symbols after Richard Stein.
 
 \include "ekmel-24.ily"
@@ -288,8 +288,7 @@
 
 %% Single glyph notation (48-EDO)
 %% Standard sharp/flat symbols and other single glyphs for quarter-
-%% and eighth-tones, as well as for parentheses of cautionary
-%% accidentals.
+%% and eighth-tones, as well as parentheses for cautionary accidentals.
 %% [-]9/8 and [-]5/4 are omitted here since they are set automatically
 %% to combinations of [-]1/8 and [-]1/4 with [-]1.
 
@@ -348,10 +347,11 @@
 %-----------------------------------------------------------------------
 
 %% Numeric notation
-%% Alteration values instead of accidental symbols drawn as fraction,
-%% or integer if the denominator is 1, with the command
-%% "\ekmelic-fraction" and a 3 steps smaller font size.
-%% It is applicable to all tunings.
+%% Alteration values instead of accidental symbols.
+%% They are drawn as fraction, or integer if the denominator is 1,
+%% with the command "\ekmelic-fraction" and with a 3 steps smaller
+%% font size.
+%% This is applicable to all tunings.
 %% The "void" notation ensures that the default accidental is used
 %% for each alteration.
 
