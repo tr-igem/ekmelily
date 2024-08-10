@@ -1,17 +1,17 @@
 Internals
 =========
 
-This is a description of the internal tables of [Ekmelily][] which
-implement the tuning (tone system), the language (note names), and the
-notation (accidentals).
+Description of the internal tables of [Ekmelily](https://github.com/tr-igem/ekmelily)
+which implement the tuning (tone system), the language (note names),
+and the notation (accidentals).
 Each include file for a specific tuning defines three variables with
 these tables as described below. They are required by the main include
-file "ekmel-main.ily".
+file `ekmel-main.ily`.
 In the same way, Ekmelily can be extended to support another tuning,
 language, or notation.
 
-See "README.md" at [Tables][] for a description of the alteration codes
-used in these tables.
+See "README.md" at [Tables](https://u.pcloud.link/publink/show?code=kZ3UnHZ7OiBK9gH8mYYIi1spPdIM4yK45gy#folder=43567022)
+for a description of the alteration codes used in these tables.
 
 
 
@@ -182,14 +182,3 @@ empty string and produce a warning.
 
 *   MARKUP: A markup from the corresponding ELEMENT.
     This is a string if ELEMENT is a codepoint, character, or string.
-
-
-
-Author
-------
-
-Thomas Richter (<thomas-richter@aon.at>)
-
-
-[Ekmelily]: http://www.ekmelic-music.org/en/extra/ekmelily.htm
-[Tables]:   https://u.pcloud.link/publink/show?code=kZ3UnHZ7OiBK9gH8mYYIi1spPdIM4yK45gy#folder=43567022
