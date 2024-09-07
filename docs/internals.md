@@ -3,12 +3,10 @@ Internals
 
 Description of the internal tables of [Ekmelily](https://github.com/tr-igem/ekmelily)
 which implement the tuning (tone system), the language (note names),
-and the notation (accidentals).
-Each include file for a specific tuning defines three variables with
-these tables as described below. They are required by the main include
+and the notation and padding of accidentals.
+Each include file for a specific tuning defines three or four variables
+with these tables as described below. They are used by the main include
 file `ekmel-main.ily`.
-In the same way, Ekmelily can be extended to support another tuning,
-language, or notation.
 
 See "README.md" at [Tables](https://u.pcloud.link/publink/show?code=kZ3UnHZ7OiBK9gH8mYYIi1spPdIM4yK45gy#folder=43567022)
 for a description of the alteration codes used in these tables.
@@ -182,3 +180,33 @@ empty string and produce a warning.
 
 *   MARKUP: A markup from the corresponding ELEMENT.
     This is a string if ELEMENT is a codepoint, character, or string.
+
+
+
+Padding
+-------
+
+The padding table defines extra padding for some accidentals. It is used
+only for normal accidentals without parentheses (not for key signatures,
+grace note accidentals, etc.)
+
+The variable `ekmPadding` defines an alist of paddings mapped onto
+accidentals. It is optional and extends the predefined list.
+
+    ekmPadding = #'(
+      (ELEMENT . PADDING)
+      ...
+    )
+
+The predefined list currently includes flat and double-flat:
+
+    (#xE260 . 0.375)
+    (#xE264 . 0.65)
+
+*   ELEMENT: A codepoint (integer), a character, a string, or
+    an arbitrary markup which defines the accidental.
+
+*   PADDING (number): Factor of the right edge of an imaginary
+    (transparent) box relative to the right edge of the accidental.
+    The box is used to change the right horizontal skyline of the
+    accidental.
