@@ -14,7 +14,7 @@
 %%
 %%
 %% File: ekmel-main.ily  -  Main include file
-%% Latest revision: 2024-04-07
+%% Latest revision: 2024-09-07
 %%
 
 \version "2.19.22"
@@ -151,27 +151,33 @@ ekmScaleNames = #'#(
 
 %% Notation (style)
 
+#(define ekm:notation-name "")
+#(define ekm:notation '())
+#(define EKM-NOTATION #f)
+
 #(define (ekm:elem? x)
   (or (integer? x)
       (char? x)
       (markup? x)))
 
-#(define (ekm:elem->markup l)
-  (map (lambda (e)
-    (cond
-      ((integer? e)
-        (if ekm:draw-paths e (ly:wide-char->utf-8 e)))
-      ((char? e)
-        (if ekm:draw-paths
-          (char->integer e)
-          (ly:wide-char->utf-8 (char->integer e))))
-      ((markup? e) e)
-      (else empty-markup)))
-    l))
+#(define (ekm:strings? x)
+  (every string? x))
 
-#(define ekm:notation-name "")
-#(define ekm:notation '())
-#(define EKM-NOTATION #f)
+#(define (ekm:elem->markup e)
+  (cond
+    ((integer? e)
+      (if ekm:draw-paths e (ly:wide-char->utf-8 e)))
+    ((char? e)
+      (if ekm:draw-paths
+        (char->integer e)
+        (ly:wide-char->utf-8 (char->integer e))))
+    ((markup? e)
+      e)
+    (else
+      empty-markup)))
+
+#(define (ekm:elems->markup l)
+  (map ekm:elem->markup l))
 
 #(define (ekm:notation-table style)
   (let ((n (or (assq-ref ekmNotations (string->symbol style))
@@ -186,7 +192,7 @@ ekmScaleNames = #'#(
                 (begin
                   (delv! (car e) ac)
                   (cons* (ekm:code->alter (car e))
-                         (ekm:elem->markup (cdr e))))
+                         (ekm:elems->markup (cdr e))))
                 #f))
               n))
          (r (map (lambda (e)
@@ -200,52 +206,79 @@ ekmScaleNames = #'#(
                   (ly:warning "Missing accidental for alteration code ~a."
                     (format #f "0x~:@(~x~)" e)))
                 (cons* (ekm:code->alter e)
-                       (ekm:elem->markup (or enh '())))))
+                       (ekm:elems->markup (or enh '())))))
               (cdr ac)))) ;; missing codes except dummy car
     (set! ekm:notation-name style)
     (set! ekm:notation (append t r EKM-NOTATION))))
 
 
+%% Padding
+
+#(define ekm:padding '())
+
+#(define (ekm:add-pad sil pad)
+  (let ((x (ly:stencil-extent sil X))
+        (y (ly:stencil-extent sil Y)))
+    (ly:stencil-add
+      sil
+      (make-transparent-box-stencil
+        (cons (car x) (* pad (cdr x)))
+        y))))
+
+
 %% Main procs (stencils)
 
-#(define-markup-command (ekmelic-acc layout props alt rst par)
-  (rational? boolean? boolean?)
+#(define-markup-command (ekm-acc layout props mk par)
+  (markup? boolean-or-symbol?)
   #:properties ((font-size 0))
-  (let ((a (or (assv-ref ekm:notation alt)
-               (assv-ref ekm:notation 'default))))
-    (fold (lambda (m acc)
+  (if (string? mk)
+    (let ((pad (and (eq? 'pad par) (assoc-ref ekm:padding mk)))
+          (sil (interpret-markup layout
+                 (cons
+                   `((font-size . ,(+ ekm:font-size font-size))
+                     (font-name . ,ekm:font-name))
+                   props)
+                 mk)))
+      (if pad (ekm:add-pad sil pad) sil))
+  (if (integer? mk)
+    (ekm-path-stencil mk font-size 0 #t)
+    (interpret-markup layout props mk))))
+
+#(define-markup-command (ekmelic-acc layout props alt rst par)
+  (rational? boolean? boolean-or-symbol?)
+  (let ((acc (or (assv-ref ekm:notation alt)
+                 (assv-ref ekm:notation 'default))))
+    (fold (lambda (mk res)
       (ly:stencil-combine-at-edge
-        acc
+        res
         X RIGHT
-        (if (string? m)
-          (interpret-markup layout
-            (cons
-             `((font-size . ,(+ ekm:font-size font-size))
-               (font-name . ,ekm:font-name))
-              props)
-            m)
-        (if (integer? m)
-          (ekm-path-stencil m font-size 0 #t)
-          (interpret-markup layout props m)))
+        (interpret-markup layout props
+          (make-ekm-acc-markup mk par))
         0.12))
       empty-stencil
       (if rst
-        (append (or (assv-ref ekm:notation 0) '("")) a)
-      (if par
-        (append
-          (assv-ref ekm:notation 'leftparen)
-          a
-          (assv-ref ekm:notation 'rightparen))
-        a)))))
+        (append (or (assv-ref ekm:notation 0) '("")) acc)
+      (if (eq? #t par)
+        (let ((l (assv-ref ekm:notation 'leftparen))
+              (r (assv-ref ekm:notation 'rightparen)))
+          (if (and (ekm:strings? acc)
+                   (ekm:strings? l)
+                   (ekm:strings? r))
+            (list (string-append
+              (string-concatenate l)
+              (string-concatenate acc)
+              (string-concatenate r)))
+            (append l acc r)))
+        acc)))))
 
-#(define* (ekm:acc grob #:optional par)
+#(define ((ekm:acc par) grob)
   (grob-interpret-markup grob
     (make-ekmelic-acc-markup
       (ly:grob-property grob 'alteration)
       (not (ly:grob-property grob 'restore-first))
       par)))
 
-#(define* (ekm:key grob #:optional cancel)
+#(define ((ekm:key cancel) grob)
   (let ((c0 (ly:grob-property grob 'c0-position)))
     (fold (lambda (a sig)
       (ly:grob-set-property! grob 'alteration (cdr a)) ;; for markup
@@ -302,7 +335,7 @@ ekmelicUserStyle =
   (for-each (lambda (u)
     (if (and (pair? u) (not (null? (cdr u))))
       (let* ((old (assv-ref ekm:notation (car u)))
-             (new (ekm:elem->markup (cdr u))))
+             (new (ekm:elems->markup (cdr u))))
         (if old
           (for-each (lambda (e)
             (set-cdr! e (ekm:list-replace! old new (cdr e))))
@@ -336,20 +369,9 @@ ekmelicOutputSuffix =
 
 #(define-markup-command (ekmelic-elem layout props elem)
   (ekm:elem?)
-  (let ((e (car (ekm:elem->markup (list elem)))))
-    (if (string? e)
-      (interpret-markup layout
-        (cons
-          `((font-size . ,ekm:font-size)
-            (font-name . ,ekm:font-name))
-          props)
-        e)
-    (if (integer? e)
-      (ekm-path-stencil e font-size 0 #t)
-      (interpret-markup layout props e)))))
+  (interpret-markup layout props
+    (make-ekm-acc-markup (ekm:elem->markup elem) 'pad)))
 
-%% Variant of \fraction
-%% scm/lily/define-markup-commands.scm
 #(define-markup-command (ekm-fraction layout props arg1 arg2)
   (markup? markup?)
   #:properties ((font-size 0))
@@ -508,24 +530,32 @@ ekmelicOutputSuffix =
 #(ekm:set-language (symbol->string (caar ekmLanguages)))
 
 #(set! EKM-NOTATION `(
-  (leftparen . ,(ekm:elem->markup '(#xE26A)))
-  (rightparen . ,(ekm:elem->markup '(#xE26B)))
+  (leftparen ,(ekm:elem->markup #xE26A))
+  (rightparen ,(ekm:elem->markup #xE26B))
   (default)))
 
 #(ekm:set-notation (symbol->string
   (or (ly:get-option 'ekmelic-style) (caar ekmNotations))))
 
+#(set! ekm:padding
+  (map (lambda (e) (cons (ekm:elem->markup (car e)) (cdr e)))
+    (cons*
+      '(#xE260 . 0.375)
+      '(#xE264 . 0.65)
+      (if (defined? 'ekmPadding) ekmPadding '()))))
+
+
 \layout {
   \context {
     \Score
-    \override Accidental.stencil = #ekm:acc
-    \override Accidental.horizontal-skylines = #'()
-    \override Accidental.vertical-skylines = #'()
-    \override AccidentalCautionary.stencil = #(lambda (grob) (ekm:acc grob #t))
-    \override KeySignature.stencil = #ekm:key
-    \override KeyCancellation.stencil = #(lambda (grob) (ekm:key grob #t))
-    \override TrillPitchAccidental.stencil = #ekm:acc
-    \override AmbitusAccidental.stencil = #ekm:acc
+    \override Accidental.stencil = #(ekm:acc 'pad)
+    \override Accidental.horizontal-skylines = #grob::always-horizontal-skylines-from-stencil
+    \override AccidentalCautionary.stencil = #(ekm:acc #t)
+    \override AccidentalCautionary.horizontal-skylines = #grob::always-horizontal-skylines-from-stencil
+    \override KeySignature.stencil = #(ekm:key #f)
+    \override KeyCancellation.stencil = #(ekm:key #t)
+    \override TrillPitchAccidental.stencil = #(ekm:acc #f)
+    \override AmbitusAccidental.stencil = #(ekm:acc #f)
     noteNameFunction = #ekm:note-name-markup
   }
 }
