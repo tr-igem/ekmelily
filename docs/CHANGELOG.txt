@@ -198,3 +198,14 @@ Version 3.13 (20 August 2023)
   Changed "\ekmelic-acc", "\ekmelic-elem", and "(ekm:elem->markup)"
   for paths.
 - New variable "ekmFont" and option "ekmfont" to select a font.
+
+2024-09-07:
+- ekmel-main.ily: Fixed too much horizontal spacing between accidentals
+  with horizontal skylines.
+- Added support for extra padding of some accidentals.
+  Introduced table "ekmPadding".
+- ekmel-main.ily: Changed drawing of parenthesized (cautionary)
+  accidentals as a single string if possible, to enable ligatures.
+- ekmel-main.ily: Added or modified some internal procedures:
+  "(ekm:strings?)", "(ekm:elem->markup)", "(ekm:elems->markup)",
+  "(ekm:add-pad)", "\ekm-acc", "(ekm:acc)", "(ekm:key)".
