@@ -14,7 +14,7 @@
 %%
 %%
 %% File: ekmel-main.ily  -  Main include file
-%% Latest revision: 2024-09-07
+%% Latest revision: 2024-09-09
 %%
 
 \version "2.19.22"
@@ -160,8 +160,8 @@ ekmScaleNames = #'#(
       (char? x)
       (markup? x)))
 
-#(define (ekm:strings? x)
-  (every string? x))
+#(define (ekm:onestring? x)
+  (and (string? (car x)) (null? (cdr x))))
 
 #(define (ekm:elem->markup e)
   (cond
@@ -248,28 +248,33 @@ ekmScaleNames = #'#(
   (rational? boolean? boolean-or-symbol?)
   (let ((acc (or (assv-ref ekm:notation alt)
                  (assv-ref ekm:notation 'default))))
-    (fold (lambda (mk res)
-      (ly:stencil-combine-at-edge
-        res
-        X RIGHT
-        (interpret-markup layout props
-          (make-ekm-acc-markup mk par))
-        0.12))
-      empty-stencil
-      (if rst
-        (append (or (assv-ref ekm:notation 0) '("")) acc)
-      (if (eq? #t par)
-        (let ((l (assv-ref ekm:notation 'leftparen))
-              (r (assv-ref ekm:notation 'rightparen)))
-          (if (and (ekm:strings? acc)
-                   (ekm:strings? l)
-                   (ekm:strings? r))
-            (list (string-append
-              (string-concatenate l)
-              (string-concatenate acc)
-              (string-concatenate r)))
-            (append l acc r)))
-        acc)))))
+    (car
+      (fold (lambda (mk res)
+        (if (boolean? mk)
+          (cons (car res) 0)
+          (cons
+            (ly:stencil-combine-at-edge
+              (car res)
+              X RIGHT
+              (interpret-markup layout props
+                (make-ekm-acc-markup mk par))
+              (cdr res))
+            0.12)))
+        (cons empty-stencil 0)
+        (if rst
+          (append (or (assv-ref ekm:notation 0) '("")) acc)
+        (if (eq? #t par)
+          (let ((l (assv-ref ekm:notation 'leftparen))
+                (r (assv-ref ekm:notation 'rightparen)))
+            (if (and (ekm:onestring? acc)
+                     (ekm:onestring? l)
+                     (ekm:onestring? r))
+              (list (string-append
+                (string-concatenate l)
+                (string-concatenate acc)
+                (string-concatenate r)))
+              (append l '(#t) acc '(#t) r)))
+          acc))))))
 
 #(define ((ekm:acc par) grob)
   (grob-interpret-markup grob
