@@ -14,6 +14,7 @@
 %%
 %%
 %% File: notation-names.ily  -  All notation styles in Ekmelily
+%% Latest revision: 2024-09-10
 %%
 
 \version "2.19.22"
@@ -39,6 +40,7 @@ ekmNotationNames = #'(
   (four . "Digit 4")
   (fern . "Ferneyhough")
   (arabic . "Arabic")
+  (helmakam . "Hel Makam")
   (persian . "Persian")
   (haba . "Hába")
   (aeu . "Arel-Ezgi-Uzdilek")
