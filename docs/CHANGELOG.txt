@@ -213,3 +213,9 @@ Version 3.13 (20 August 2023)
 2024-09-09:
 - ekmel-main.ily: "\ekmelic-acc": Fixed different padding in cautionary
   accidentals (issue #5).
+
+2024-09-10:
+- ekmel-main.ily: Added support for suggested accidentals.
+- ekmel-arabic.ily: Added language "arabic" and notation style "helmakam",
+  as well as keys from "hel-arabic.ly".
+- notation-names.ily: Added notation style name "helmakam".
