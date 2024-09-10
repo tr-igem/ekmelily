@@ -14,7 +14,7 @@
 %%
 %%
 %% File: ekmel-main.ily  -  Main include file
-%% Latest revision: 2024-09-09
+%% Latest revision: 2024-09-10
 %%
 
 \version "2.19.22"
@@ -561,6 +561,7 @@ ekmelicOutputSuffix =
     \override KeyCancellation.stencil = #(ekm:key #t)
     \override TrillPitchAccidental.stencil = #(ekm:acc #f)
     \override AmbitusAccidental.stencil = #(ekm:acc #f)
+    \override AccidentalSuggestion.stencil = #(ekm:acc #f)
     noteNameFunction = #ekm:note-name-markup
   }
 }
