@@ -219,3 +219,8 @@ Version 3.13 (20 August 2023)
 - ekmel-arabic.ily: Added language "arabic" and notation style "helmakam",
   as well as keys from "hel-arabic.ly".
 - notation-names.ily: Added notation style name "helmakam".
+
+2024-09-19:
+- Added "ekmel-96.ily" for 96-EDO in Sagittal, Persian, and OpenMusic
+  notation.
+- notation-names.ily: Added notation style name "om".
