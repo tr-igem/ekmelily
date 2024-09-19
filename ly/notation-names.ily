@@ -48,4 +48,5 @@ ekmNotationNames = #'(
   (thm . "Turkish folk music")
   (dia . "Diatonic")
   (he . "Extended Helmholtz-Ellis")
+  (om . "OpenMusic")
 )
