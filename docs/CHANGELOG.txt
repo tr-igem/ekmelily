@@ -224,3 +224,10 @@ Version 3.13 (20 August 2023)
 - Added "ekmel-96.ily" for 96-EDO in Sagittal, Persian, and OpenMusic
   notation.
 - notation-names.ily: Added notation style name "om".
+
+2024-09-25:
+- ekmel-main.ily: Added universal notation styles "alteration" and "step",
+  and related procedures "\ekm-num-acc", "ekm:alter->step",
+  and table "EKM-UNI-NOTATIONS" replacing "EKM-NOTATION".
+- ekmel-main.ily: Changed procedures for universal notation styles:
+  "ekm:set-notation", "\ekmelicStyle", "\ekmelic-fraction-small".
