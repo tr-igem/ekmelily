@@ -14,7 +14,7 @@
 %%
 %%
 %% File: ekmel-main.ily  -  Main include file
-%% Latest revision: 2024-09-10
+%% Latest revision: 2024-09-25
 %%
 
 \version "2.19.22"
@@ -59,6 +59,14 @@
                (c (if (ekm:enheq? alt) (logior c EKM-ACODE-ENHEQ) c)))
           (if (negative? alt) (1+ c) c))
         (ac (cdr t)))))))
+
+#(define (ekm:alter->step alt)
+  (let ((a (ekm:pure-alter alt)))
+    (let stp ((s 1) (t ekmTuning))
+      (if (null? t) 0
+      (if (eqv? a (cdar t))
+        (if (negative? alt) (- s) s)
+        (stp (if (= -1 (caar t)) s (1+ s)) (cdr t)))))))
 
 
 %% Language (pitch names)
@@ -153,7 +161,7 @@ ekmScaleNames = #'#(
 
 #(define ekm:notation-name "")
 #(define ekm:notation '())
-#(define EKM-NOTATION #f)
+#(define EKM-UNI-NOTATIONS '())
 
 #(define (ekm:elem? x)
   (or (integer? x)
@@ -161,7 +169,7 @@ ekmScaleNames = #'#(
       (markup? x)))
 
 #(define (ekm:onestring? x)
-  (and (string? (car x)) (null? (cdr x))))
+  (and (pair? x) (string? (car x)) (null? (cdr x))))
 
 #(define (ekm:elem->markup e)
   (cond
@@ -209,7 +217,7 @@ ekmScaleNames = #'#(
                        (ekm:elems->markup (or enh '())))))
               (cdr ac)))) ;; missing codes except dummy car
     (set! ekm:notation-name style)
-    (set! ekm:notation (append t r EKM-NOTATION))))
+    (set! ekm:notation (append t r (cdar EKM-UNI-NOTATIONS)))))
 
 
 %% Padding
@@ -269,10 +277,7 @@ ekmScaleNames = #'#(
             (if (and (ekm:onestring? acc)
                      (ekm:onestring? l)
                      (ekm:onestring? r))
-              (list (string-append
-                (string-concatenate l)
-                (string-concatenate acc)
-                (string-concatenate r)))
+              (list (string-append (car l) (car acc) (car r)))
               (append l '(#t) acc '(#t) r)))
           acc))))))
 
@@ -328,9 +333,10 @@ language =
 ekmelicStyle =
 #(define-void-function (style)
   (string?)
-  (if (string=? "void" style)
-    (set! ekm:notation EKM-NOTATION)
-    (ekm:set-notation style)))
+  (let ((n (assq-ref EKM-UNI-NOTATIONS (string->symbol style))))
+    (if n
+      (set! ekm:notation n)
+      (ekm:set-notation style))))
 
 ekmelicUserStyle =
 #(define-void-function (name def)
@@ -388,7 +394,7 @@ ekmelicOutputSuffix =
               (ly:stencil-extent m2 X)))
          (h (ly:stencil-extent m1 Y))
          (line (make-filled-box-stencil
-                 w (cons (* mag -0.06) (* mag 0.06))))
+                 w (cons (* mag -0.07) (* mag 0.07))))
          (sil (stack-stencils Y DOWN (* mag 0.2) (list m1 line m2))))
     ;; (+ 0.2 0.06 0.5)
     (ly:stencil-translate sil
@@ -414,17 +420,35 @@ ekmelicOutputSuffix =
 #(define-markup-command (ekmelic-fraction-small layout props alt)
   (rational?)
   #:properties ((font-size 0))
-  (interpret-markup layout props
-    (if (integer? alt)
-      (make-ekmelic-fraction-markup alt)
+  (let ((a (ekm:pure-alter alt)))
+    (interpret-markup layout props
       (ekm:with-sign alt
-        (make-stencil-markup
-          (ly:stencil-translate-axis
-            (interpret-markup layout
-              (cons `((font-size . ,(- font-size 3))) props)
-              (make-ekmelic-fraction-markup (abs alt)))
-            (* 0.14 (magstep font-size))
-            Y))))))
+        (if (integer? a)
+          (number->string a)
+          (make-stencil-markup
+            (ly:stencil-translate-axis
+              (interpret-markup layout
+                (cons `((font-size . ,(- font-size 3))) props)
+                (make-ekm-fraction-markup
+                  (number->string (numerator a))
+                  (number->string (denominator a))))
+              (* 0.18 (magstep font-size))
+              Y)))))))
+
+#(define-markup-command (ekm-num-acc layout props style)
+  (symbol?)
+  #:properties ((font-size 0))
+  (let* ((alt (ly:chain-assoc-get 'alteration props 0))
+         (m (case style
+              ((alteration) (make-ekmelic-fraction-small-markup alt))
+              ((step) (number->string (ekm:alter->step alt)))
+              ((leftparen) "(")
+              ((rightparen) ")")
+              (else empty-markup))))
+    (ly:stencil-translate-axis
+      (interpret-markup layout props m)
+      (* -0.75 (magstep font-size))
+      Y)))
 
 #(define-markup-command (ekmelic-table layout props natural composite order)
   (boolean? boolean? number?)
@@ -534,10 +558,20 @@ ekmelicOutputSuffix =
 
 #(ekm:set-language (symbol->string (caar ekmLanguages)))
 
-#(set! EKM-NOTATION `(
-  (leftparen ,(ekm:elem->markup #xE26A))
-  (rightparen ,(ekm:elem->markup #xE26B))
-  (default)))
+#(set! EKM-UNI-NOTATIONS `(
+  (void . (
+    (leftparen ,(ekm:elem->markup #xE26A))
+    (rightparen ,(ekm:elem->markup #xE26B))
+    (default)))
+  (alteration . (
+    (leftparen ,(make-ekm-num-acc-markup 'leftparen))
+    (rightparen ,(make-ekm-num-acc-markup 'rightparen))
+    (default ,(make-ekm-num-acc-markup 'alteration))))
+  (step . (
+    (leftparen ,(make-ekm-num-acc-markup 'leftparen))
+    (rightparen ,(make-ekm-num-acc-markup 'rightparen))
+    (default ,(make-ekm-num-acc-markup 'step))))
+))
 
 #(ekm:set-notation (symbol->string
   (or (ly:get-option 'ekmelic-style) (caar ekmNotations))))
