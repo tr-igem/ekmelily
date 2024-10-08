@@ -14,7 +14,7 @@
 %%
 %%
 %% File: ekmel-main.ily  -  Main include file
-%% Latest revision: 2024-09-25
+%% Latest revision: 2024-10-08
 %%
 
 \version "2.19.22"
@@ -289,15 +289,19 @@ ekmScaleNames = #'#(
       par)))
 
 #(define ((ekm:key cancel) grob)
-  (let ((c0 (ly:grob-property grob 'c0-position)))
+  (let ((c0 (ly:grob-property grob 'c0-position))
+        (su (* 0.5 (ly:staff-symbol-staff-space grob))))
     (fold (lambda (a sig)
       (ly:grob-set-property! grob 'alteration (cdr a)) ;; for markup
       (ly:stencil-stack
-        (grob-interpret-markup grob
-          (make-raise-markup
-            (/ (car (key-signature-interface::alteration-positions a c0 grob)) 2)
-            (make-ekmelic-acc-markup (if cancel 0 (cdr a)) #f #f)))
-        X RIGHT sig 0.15)) ;; or 0.16 = 0.04em
+        (ly:stencil-translate-axis
+          (grob-interpret-markup grob
+            (make-ekmelic-acc-markup (if cancel 0 (cdr a)) #f #f))
+          (* su (car (key-signature-interface::alteration-positions a c0 grob)))
+          Y)
+        X RIGHT
+        sig
+        (if cancel 0.3 0.14)))
       '()
       (ly:grob-property grob 'alteration-alist))))
 
