@@ -231,3 +231,7 @@ Version 3.13 (20 August 2023)
   and table "EKM-UNI-NOTATIONS" replacing "EKM-NOTATION".
 - ekmel-main.ily: Changed procedures for universal notation styles:
   "ekm:set-notation", "\ekmelicStyle", "\ekmelic-fraction-small".
+
+2024-10-08:
+- ekmel-main.ily: Fixed vertical position of key signature accidentals
+  for non-default staff space (issue #8).
