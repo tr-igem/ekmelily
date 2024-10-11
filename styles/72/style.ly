@@ -1,4 +1,4 @@
-%%
+﻿%%
 %% Demonstrate a notation style of Ekmelily
 %% for 72-EDO
 %%
@@ -11,17 +11,20 @@
 \language "deutsch"
 
 % \ekmelicStyle arrow
-% \ekmelicStyle rhm
-% \ekmelicStyle sims
-% \ekmelicStyle hesse
-% \ekmelicStyle sag
-% \ekmelicStyle msag
-% \ekmelicStyle wys
-% \ekmelicStyle haba
-% \ekmelicStyle gostc
-% \ekmelicStyle gostz
 % \ekmelicStyle bos
 % \ekmelicStyle fern
+% \ekmelicStyle gostc
+% \ekmelicStyle gostz
+% \ekmelicStyle haba
+% \ekmelicStyle hesse
+% \ekmelicStyle msag
+% \ekmelicStyle rhm
+% \ekmelicStyle sag
+% \ekmelicStyle sims
+% \ekmelicStyle wys
+
+% \ekmelicStyle alteration
+% \ekmelicStyle step
 
 %% HEWM (Helmholtz / Ellis / Wolf / Monzo) notation
 %userStyle = #'(
@@ -73,49 +76,6 @@
 %   (#x28 #\#) ; 1/2
 %   (#x29 #\b)
 %   (#x44 #\x) ; 1
-%))
-
-%% Sagittal Pure-long ASCII representation
-%userStyle = #'(
-%  "sagpurelong"
-%  ((0 #\| #\/ #\/ #\|)
-%   (-1/2 #\\ #\! #\! #\/)
-%   (1/2 #\/ #\| #\| #\\)
-%   (-1/4 #\\ #\! #\/)
-%   (1/4 #\/ #\| #\\)
-%   (-3/4 #\\ #\! #\! #\! #\/)
-%   (3/4 #\/ #\| #\| #\| #\\)
-%   (-1/6 #\! #\))
-%   (1/6 #\| #\))
-%   (-1/3 #\! #\! #\))
-%   (1/3 #\| #\| #\))
-%   (-2/3 #\! #\! #\! #\))
-%   (2/3 #\| #\| #\| #\))
-%   (-1/12 #\\ #\!)
-%   (1/12 #\/ #\|)
-%   (-5/12 #\! #\! #\/)
-%   (5/12 #\| #\| #\\)
-%   (-7/12 #\\ #\! #\! #\!)
-%   (7/12 #\/ #\| #\| #\|)
-%   (-1 #\\ #\Y #\/)
-%   (1 #\/ #\X #\\)
-%   (-5/4 #\\ #\! #\/ #\\ #\Y #\/)
-%   (5/4 #\/ #\| #\\ #\/ #\X #\\)
-%   (-5/6 #\Y #\))
-%   (5/6 #\X #\))
-%   (-7/6 #\! #\) #\\ #\Y #\/)
-%   (7/6 #\| #\) #\/ #\X #\\)
-%   (-11/12 #\Y #\/)
-%   (11/12 #\X #\\)
-%   (-13/12 #\\ #\! #\\ #\Y #\/)
-%   (13/12 #\/ #\| #\/ #\X #\\))
-%  ((0 #\!)
-%   (0 #\))
-%   (0 #\/)
-%   (0 #\X)
-%   (0 #\Y)
-%   (0 #\\)
-%   (0 #\|)
 %))
 
 % \ekmelicUserStyle #(first userStyle) #(second userStyle)
