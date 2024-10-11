@@ -44,6 +44,8 @@ styleFontOutputSuffix =
   (let* ((u (defined? 'userStyle))
          (n (if u (first userStyle)
                   (string->symbol ekm:notation-name)))
+         (l (or (if u (third userStyle) (assq-ref ekmNotations n))
+                '()))
          (l (filter-map (lambda (e)
               (if (= 2 (length e))
                 (cons*
@@ -53,8 +55,7 @@ styleFontOutputSuffix =
                   (ekm:code->alter (car e))
                   (logand (car e) 1)) ;; sort weight
                 #f))
-              (if u (third userStyle)
-                    (assq-ref ekmNotations n)))))
+              l)))
     (stack-lines DOWN 0.0 3.7
       (cons*
         (if u
@@ -168,12 +169,12 @@ scoreDefs = {
 }
 
 \paper {
-  #(define fonts
-    (make-pango-font-tree
-      "Times New Roman"
-      "Arial"
-      "Lucida Console"
-      1.0))
+  %#(define fonts
+  %  (make-pango-font-tree
+  %    "Times New Roman"
+  %    "Arial"
+  %    "Lucida Console"
+  %    1.0))
 
   left-margin = 5 \mm
   right-margin = 5 \mm
