@@ -49,4 +49,7 @@ ekmNotationNames = #'(
   (dia . "Diatonic")
   (he . "Extended Helmholtz-Ellis")
   (om . "OpenMusic")
+  (void . "No symbol")
+  (alteration . "Alteration value")
+  (step . "Tone step")
 )
