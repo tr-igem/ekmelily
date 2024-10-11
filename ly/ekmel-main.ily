@@ -14,7 +14,7 @@
 %%
 %%
 %% File: ekmel-main.ily  -  Main include file
-%% Latest revision: 2024-10-08
+%% Latest revision: 2024-10-11
 %%
 
 \version "2.19.22"
@@ -187,37 +187,36 @@ ekmScaleNames = #'#(
 #(define (ekm:elems->markup l)
   (map ekm:elem->markup l))
 
-#(define (ekm:notation-table style)
-  (let ((n (or (assq-ref ekmNotations (string->symbol style))
-               (cdar ekmNotations))))
-    (if (symbol? n) (assq-ref ekmNotations n) n)))
-
 #(define (ekm:set-notation style)
-  (let* ((ac (list-copy ekm:acodes))
-         (n (ekm:notation-table style))
-         (t (filter-map (lambda (e)
-              (if (ekm:tuning? (car e))
-                (begin
-                  (delv! (car e) ac)
-                  (cons* (ekm:code->alter (car e))
-                         (ekm:elems->markup (cdr e))))
-                #f))
-              n))
-         (r (map (lambda (e)
-              (let ((enh #f))
-                (if (logtest e EKM-ACODE-ENHEQ)
-                  (begin
-                    (set! enh (assv-ref n (logxor e EKM-ACODE-ENHEQ)))
-                    (if (not enh)
-                      (ly:warning "Missing accidental for enh. equivalent alteration code ~a."
-                        (format #f "0x~:@(~x~)" e))))
-                  (ly:warning "Missing accidental for alteration code ~a."
-                    (format #f "0x~:@(~x~)" e)))
-                (cons* (ekm:code->alter e)
-                       (ekm:elems->markup (or enh '())))))
-              (cdr ac)))) ;; missing codes except dummy car
-    (set! ekm:notation-name style)
-    (set! ekm:notation (append t r (cdar EKM-UNI-NOTATIONS)))))
+  (set! ekm:notation-name style)
+  (set! ekm:notation
+    (or (assq-ref EKM-UNI-NOTATIONS (string->symbol style))
+        (let* ((n (or (assq-ref ekmNotations (string->symbol style))
+                      (cdar ekmNotations)))
+               (n (if (symbol? n) (assq-ref ekmNotations n) n))
+               (ac (list-copy ekm:acodes))
+               (t (filter-map (lambda (e)
+                    (if (ekm:tuning? (car e))
+                      (begin
+                        (delv! (car e) ac)
+                        (cons* (ekm:code->alter (car e))
+                               (ekm:elems->markup (cdr e))))
+                      #f))
+                    n))
+               (r (map (lambda (e)
+                    (let ((enh #f))
+                      (if (logtest e EKM-ACODE-ENHEQ)
+                        (begin
+                          (set! enh (assv-ref n (logxor e EKM-ACODE-ENHEQ)))
+                          (if (not enh)
+                            (ly:warning "Missing accidental for enh. equivalent alteration code ~a."
+                              (format #f "0x~:@(~x~)" e))))
+                        (ly:warning "Missing accidental for alteration code ~a."
+                          (format #f "0x~:@(~x~)" e)))
+                      (cons* (ekm:code->alter e)
+                             (ekm:elems->markup (or enh '())))))
+                    (cdr ac)))) ;; missing codes except dummy car
+          (append t r (cdar EKM-UNI-NOTATIONS))))))
 
 
 %% Padding
@@ -337,10 +336,7 @@ language =
 ekmelicStyle =
 #(define-void-function (style)
   (string?)
-  (let ((n (assq-ref EKM-UNI-NOTATIONS (string->symbol style))))
-    (if n
-      (set! ekm:notation n)
-      (ekm:set-notation style))))
+  (ekm:set-notation style))
 
 ekmelicUserStyle =
 #(define-void-function (name def)
