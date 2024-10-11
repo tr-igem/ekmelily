@@ -1,4 +1,4 @@
-%%
+﻿%%
 %% Demonstrate a notation style of Ekmelily
 %% for 19-EDO
 %%
@@ -10,9 +10,12 @@
 
 \language "deutsch"
 
-% \ekmelicStyle std
-% \ekmelicStyle sag
 % \ekmelicStyle msag
+% \ekmelicStyle sag
+% \ekmelicStyle std
+
+% \ekmelicStyle alteration
+% \ekmelicStyle step
 
 languageNames = #'(
   "nederlands"
