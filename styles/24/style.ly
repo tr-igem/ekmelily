@@ -1,4 +1,4 @@
-%%
+﻿%%
 %% Demonstrate a notation style of Ekmelily
 %% for 24-EDO
 %%
@@ -10,17 +10,20 @@
 
 \language "deutsch"
 
-% \ekmelicStyle stc
-% \ekmelicStyle stz
-% \ekmelicStyle go
-% \ekmelicStyle stvt
-% \ekmelicStyle arrow
-% \ekmelicStyle sag
-% \ekmelicStyle msag
 % \ekmelicStyle arabic
-% \ekmelicStyle persian
+% \ekmelicStyle arrow
 % \ekmelicStyle four
+% \ekmelicStyle go
 % \ekmelicStyle haba
+% \ekmelicStyle msag
+% \ekmelicStyle persian
+% \ekmelicStyle sag
+% \ekmelicStyle stc
+% \ekmelicStyle stvt
+% \ekmelicStyle stz
+
+% \ekmelicStyle alteration
+% \ekmelicStyle step
 
 %userStyle = #'(
 %  "persianext"
@@ -41,8 +44,8 @@
 %   ;(#x50 #) ; 5/4
 %   ;(#x51 #)
 %))
-%
-%\ekmelicUserStyle #(first userStyle) #(second userStyle)
+
+% \ekmelicUserStyle #(first userStyle) #(second userStyle)
 
 languageNames = #'(
   "nederlands"
