@@ -10,10 +10,13 @@
 
 \language "deutsch"
 
-% \ekmelicStyle sag
 % \ekmelicStyle msag
-% \ekmelicStyle persian
 % \ekmelicStyle om
+% \ekmelicStyle persian
+% \ekmelicStyle sag
+
+% \ekmelicStyle alteration
+% \ekmelicStyle step
 
 languageNames = #'(
   "nederlands"
@@ -32,8 +35,7 @@ languageNames = #'(
   %% Uncomment \removeWithTag
   %% to ignore the respective alteration
 
-  %% negative alteration
-  %% (om)
+  %% (om = no negative alterations)
   % \removeWithTag #'om
 
   \new Staff \relative c'' {
