@@ -1,4 +1,4 @@
-%%
+﻿%%
 %% Demonstrate a notation style of Ekmelily
 %% for Arabic (24-EDO)
 %%
@@ -11,7 +11,10 @@
 \language "arabic"
 
 % \ekmelicStyle arabic
-\ekmelicStyle helmakam
+% \ekmelicStyle helmakam
+
+% \ekmelicStyle alteration
+% \ekmelicStyle step
 
 languageNames = #'(
   "italiano"
