@@ -12,13 +12,16 @@
 
 % \ekmelicStyle aeu
 % \ekmelicStyle aeuek
-% \ekmelicStyle thm
-% \ekmelicStyle sag
 % \ekmelicStyle dia
+% \ekmelicStyle sag
+% \ekmelicStyle thm
+
+% \ekmelicStyle alteration
+% \ekmelicStyle step
 
 languageNames = #'(
   "makam"
-  ;"thm"
+  ;"thm"  ;; for style thm instead of english
   ;"ktm"
   "english"
   ;"number"
@@ -41,7 +44,7 @@ languageNames = #'(
   %% (thm)
   % \removeWithTag #'(noaeu thm)
 
-  %% (sag)
+  %% (sag alteration step)
   % \removeWithTag #'noaeu
 
   %% (dia)
@@ -91,26 +94,26 @@ languageNames = #'(
       \tag #'thm gft
       \bar "|" \break
 
-      %% notes for thm
-      % c,
-      % ceb
-      % dfb
-      % d
-      % efk
-      % efi
-      % e
-      % f
-      % feb
-      % \bar "" \break
-      % gfb
-      % g
-      % afk
-      % afi
-      % a
-      % bfk
-      % bfi
-      % b
-      % \bar "|" \break
+      %% notes for style thm
+      %c,
+      %ceb
+      %dfb
+      %d
+      %efk
+      %efi
+      %e
+      %f
+      %feb
+      %\bar "" \break
+      %gfb
+      %g
+      %afk
+      %afi
+      %a
+      %bfk
+      %bfi
+      %b
+      %\bar "|" \break
     }
   }
 
