@@ -6,7 +6,8 @@ notation styles in the available tunings of Ekmelily. Each file includes:
 
 *   A list of all accidental symbols used in the notation style,
     together with the represented tone fraction,
-    its SMuFL code point U+..., and its glyph name.
+    its SMuFL code point U+..., and its glyph name,
+    except for the universal notation styles `alteration` and `step`.
 
 *   The usage in a [LilyPond](http://lilypond.org/) input file.
 
