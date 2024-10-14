@@ -14,7 +14,7 @@
 %%
 %%
 %% File: ekmel-main.ily  -  Main include file
-%% Latest revision: 2024-10-11
+%% Latest revision: 2024-10-14
 %%
 
 \version "2.19.22"
@@ -166,7 +166,17 @@ ekmScaleNames = #'#(
 #(define (ekm:elem? x)
   (or (integer? x)
       (char? x)
-      (markup? x)))
+      ;; cheap-markup
+      (string? x)
+      (pair? x)))
+
+#(define (ekm:path? x)
+  (integer? x))
+
+#(define (ekm:markup-or-path? x)
+  (or (string? x)
+      (pair? x)
+      (integer? x)))
 
 #(define (ekm:onestring? x)
   (and (pair? x) (string? (car x)) (null? (cdr x))))
@@ -236,7 +246,7 @@ ekmScaleNames = #'#(
 %% Main procs (stencils)
 
 #(define-markup-command (ekm-acc layout props mk par)
-  (markup? boolean-or-symbol?)
+  (ekm:markup-or-path? boolean-or-symbol?)
   #:properties ((font-size 0))
   (if (string? mk)
     (let ((pad (and (eq? 'pad par) (assoc-ref ekm:padding mk)))
@@ -247,7 +257,7 @@ ekmScaleNames = #'#(
                    props)
                  mk)))
       (if pad (ekm:add-pad sil pad) sil))
-  (if (integer? mk)
+  (if (ekm:path? mk)
     (ekm-path-stencil mk font-size 0 #t)
     (interpret-markup layout props mk))))
 
@@ -375,7 +385,9 @@ ekmelicOutputSuffix =
   #:properties ((font-size 1))
   (interpret-markup
     layout
-    (cons `((font-size . ,(- font-size 3))) props)
+    (cons `((font-size . ,(- font-size 3))
+            (alteration . ,alt))
+          props)
     (make-ekmelic-acc-markup alt #f #f)))
 
 #(define-markup-command (ekmelic-elem layout props elem)
