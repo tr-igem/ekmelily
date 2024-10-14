@@ -240,3 +240,8 @@ Version 3.13 (20 August 2023)
 - ekmel-main.ily: Fixed missing "ekm:notation-name" for universal notation style.
   Changed "ekm:set-notation" and "\ekmelicStyle".
   Removed "ekm:notation-table".
+
+2024-10-14:
+- ekmel-main.ily: Fixed buggy path support in "\ekm-acc".
+  Added procedures "ekm:path?" and "ekm:markup-or-path?".
+- ekmel-main.ily: Fixed support for universal notation styles in "\ekmelic-char".
