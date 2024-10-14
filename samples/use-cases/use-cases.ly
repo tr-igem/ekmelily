@@ -5,7 +5,6 @@
 
 \version "2.24.0"
 
-% ekmFont = "Bravura"
 % ekmFont = "#"
 
 % \include "../../../Ekmelos/ly/ekmelos-paths.ily"
@@ -13,17 +12,20 @@
 \language "deutsch"
 
 % \ekmelicStyle arrow
-% \ekmelicStyle rhm
-% \ekmelicStyle sims
-% \ekmelicStyle hesse
-% \ekmelicStyle sag
-% \ekmelicStyle msag
-% \ekmelicStyle wys
-% \ekmelicStyle gostz
-% \ekmelicStyle gostc
 % \ekmelicStyle bos
 % \ekmelicStyle fern
+% \ekmelicStyle gostc
+% \ekmelicStyle gostz
 % \ekmelicStyle haba
+% \ekmelicStyle hesse
+% \ekmelicStyle msag
+% \ekmelicStyle rhm
+% \ekmelicStyle sag
+% \ekmelicStyle sims
+% \ekmelicStyle wys
+
+% \ekmelicStyle alteration
+% \ekmelicStyle step
 
 \ekmelicOutputSuffix
 \pointAndClickOff
@@ -53,35 +55,30 @@
 
 
 \markup \column {
-  \wordwrap {
-    Samples for
-    \with-url #"http://www.ekmelic-music.org/en/extra/ekmelily.htm"
-    \with-color #darkblue "Ekmelily"
-    demonstrating accidental symbols in various use cases.
-  }
-  \line { Font: \typewriter { \ekmelic-font-name }}
-  \line { Include file: \typewriter { ekmel.ily }}
-  \line { Notation style: \typewriter { \ekmelic-style-name }}
+  "Samples for Ekmelily demonstrating accidental symbols in various use cases."
+  \line { "Include file:" \typewriter { ekmel.ily }}
+  \line { "Notation style:" \typewriter { \ekmelic-style-name }}
   \vspace #2
 }
 
 %%----------------------------------------------------------------------
 
-\markup \line { Normal and cautionary accidentals: }
+\markup "Normal, cautionary, and suggested accidentals:"
 \score {
   \new Staff \relative c'' {
     cir4 cil cih cis
-    der4 del deh des
-    cisih cisih? c! c?
+    der del deh des
+    cil? c?
+    \set suggestAccidentals = ##t
+    cis deh
   }
 }
 
 %%----------------------------------------------------------------------
 
-\markup \line { Key signatures: }
+\markup "Key signatures:"
 \score {
   \new Staff \relative c'' {
-    % justMinor
     \key f #'((0 . 0)
               (1 . 0)
               (2 . -1/4)
@@ -91,8 +88,14 @@
               (6 . -1/4))
     ah4 ceh eh c
 
-    \key d \major
-    cih4 cis e fis
+    \key c #'((0 . 1/4)
+              (1 . 0)
+              (2 . 0)
+              (3 . 1/4)
+              (4 . 0)
+              (5 . 0)
+              (6 . 0))
+    cih4 ciseh e fih
   }
   \layout {
     \context {
@@ -113,7 +116,7 @@
 
 %%----------------------------------------------------------------------
 
-\markup \line { Grace note accidentals: }
+\markup "Grace note accidentals:"
 \score {
   \new Staff \relative c'' {
     \grace her8 a4
@@ -126,7 +129,7 @@
 
 %%----------------------------------------------------------------------
 
-\markup \line { Trill pitch accidentals: }
+\markup "Trill pitch accidentals:"
 \score {
   \new Staff \relative c'' {
     \pitchedTrill d1 \startTrillSpan eil
@@ -136,7 +139,7 @@
 
 %%----------------------------------------------------------------------
 
-\markup \line { Ambitus accidentals: }
+\markup "Ambitus accidentals:"
 \score {
   \new Staff \relative c'' {
     c4 eisel d a cesir,1
@@ -151,7 +154,7 @@
 
 %%----------------------------------------------------------------------
 
-\markup \line { Accidentals in cue voices: }
+\markup "Accidentals in cue voices:"
 \score {
   \new Staff \relative c'' {
     <<
@@ -177,7 +180,7 @@
 
 %%----------------------------------------------------------------------
 
-\markup \line { Accidentals in ossia staves (here with a 3 steps smaller font size): }
+\markup "Accidentals in ossia staves (here with a 3 steps smaller font size):"
 \score {
   \new Staff = "main"
   \relative c'' {
