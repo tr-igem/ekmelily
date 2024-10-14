@@ -12,6 +12,6 @@ Some snippets demonstrating Ekmelily:
     and with different languages. Uses "ekmel.ily".
 
 *   "use-cases":
-    Accidentals symbols as normal, cautionary, grace note, trill pitch,
+    Accidentals symbols as normal, cautionary, suggested, grace note, trill pitch,
     and ambitus accidentals; as key signatures, and in cue voice and ossia staff.
     Uses "ekmel.ily".
