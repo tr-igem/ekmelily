@@ -245,3 +245,14 @@ Version 3.13 (20 August 2023)
 - ekmel-main.ily: Fixed buggy path support in "\ekm-acc".
   Added procedures "ekm:path?" and "ekm:markup-or-path?".
 - ekmel-main.ily: Fixed support for universal notation styles in "\ekmelic-char".
+
+2024-11-13:
+- ekmel-main.ily: Fixed "\ekmelicUserStyle" hang-up when changing
+  special symbols (issue #9).
+  "ekm:set-notation" sets a copy of the selected alist from "EKM-UNI-NOTATIONS"
+  to keep this table unchanged.
+- ekmel-main.ily: Added support for three fraction styles:
+  "slash" (diagonal bar), "line" (with solidus), default (horizontal bar).
+  Changed "\ekm-fraction", "\ekmelic-fraction", "\ekmelic-fraction-small",
+  and "\ekm-num-acc".
+- ekmel-main.ily: Added universal notation style "alteration-slash".
