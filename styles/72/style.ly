@@ -24,6 +24,7 @@
 % \ekmelicStyle wys
 
 % \ekmelicStyle alteration
+% \ekmelicStyle alteration-slash
 % \ekmelicStyle step
 
 %% HEWM (Helmholtz / Ellis / Wolf / Monzo) notation
