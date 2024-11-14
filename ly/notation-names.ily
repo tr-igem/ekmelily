@@ -14,7 +14,7 @@
 %%
 %%
 %% File: notation-names.ily  -  All notation styles in Ekmelily
-%% Latest revision: 2024-09-10
+%% Latest revision: 2024-11-14
 %%
 
 \version "2.19.22"
@@ -51,5 +51,6 @@ ekmNotationNames = #'(
   (om . "OpenMusic")
   (void . "No symbol")
   (alteration . "Alteration value")
+  (alteration-slash . "Alteration value with slash")
   (step . "Tone step")
 )
