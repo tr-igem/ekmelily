@@ -256,3 +256,8 @@ Version 3.13 (20 August 2023)
   Changed "\ekm-fraction", "\ekmelic-fraction", "\ekmelic-fraction-small",
   and "\ekm-num-acc".
 - ekmel-main.ily: Added universal notation style "alteration-slash".
+
+2024-11-15:
+- ekmel-main.ily: Fixed inconsistent vertical position of minus sign for
+  fraction and integer in "\ekm-fraction" and "\ekmelic-fraction".
+  "ekm:with-sign": Minus sign is drawn as a box instead of a character.
