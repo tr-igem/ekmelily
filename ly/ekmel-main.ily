@@ -14,7 +14,7 @@
 %%
 %%
 %% File: ekmel-main.ily  -  Main include file
-%% Latest revision: 2024-11-13
+%% Latest revision: 2024-11-15
 %%
 
 \version "2.19.22"
@@ -406,7 +406,8 @@ ekmelicOutputSuffix =
   (let* ((mag (magstep font-size))
          (m1 (ly:stencil-aligned-to (interpret-markup layout props arg1) X CENTER))
          (m2 (ly:stencil-aligned-to (interpret-markup layout props arg2) X CENTER))
-         (pad (* 0.2 mag)))
+         (pad (* 0.2 mag))
+         (y (* 0.5 (- 1.6 (magstep font-size)))))
     (case style
       ((slash) ;; diagonal
         (let* ((w1 (interval-length (ly:stencil-extent m1 X)))
@@ -419,7 +420,7 @@ ekmelicOutputSuffix =
                  m1
                  (ly:stencil-translate line (cons (+ (* 0.5 w1) pad) 0))
                  (ly:stencil-translate m2 (cons (+ (* 0.5 w1) (* 0.5 w2) pad) 0))))
-            (cons 0 (* 0.5 mag)))))
+            (cons 0 (+ (* 0.5 mag) y)))))
       ((line) ;; oblique
         (stack-stencil-line pad
           (list m1 (interpret-markup layout props "/") m2)))
@@ -431,12 +432,14 @@ ekmelicOutputSuffix =
           (ly:stencil-translate
             (stack-stencils Y DOWN pad
               (list m1 line m2))
-            (cons (- (car w)) (+ (- (car (ly:stencil-extent m1 Y))) (* 4 pad)))))))))
+            (cons (- (car w)) (+ (- (car (ly:stencil-extent m1 Y))) (* 4 pad) y))))))))
 
 #(define (ekm:with-sign num arg)
   (if (negative? num)
     (make-concat-markup (list
-      "-" (make-hspace-markup (if (integer? num) 0 0.1)) arg))
+      (make-filled-box-markup '(0 . 0.7) '(0.7 . 0.9) 0)
+      (make-hspace-markup (if (integer? num) 0 0.2))
+      arg))
     arg))
 
 #(define-markup-command (ekmelic-fraction layout props alt)
@@ -452,8 +455,7 @@ ekmelicOutputSuffix =
           (let ((m (make-ekm-fraction-markup n (number->string (denominator a)))))
             (if (eq? 'line style)
               m
-              (make-translate-markup (cons 0 (* 0.5 (- 1.0 (magstep fraction-size))))
-               (make-fontsize-markup fraction-size m)))))))))
+              (make-fontsize-markup fraction-size m))))))))
 
 #(define-markup-command (ekmelic-fraction-small layout props alt)
   (rational?)
