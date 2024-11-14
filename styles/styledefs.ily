@@ -133,7 +133,9 @@ styleFontOutputSuffix =
         (map (lambda (l) (ekm:pitch-name p l 'lily 0))
           languageNames)
         (list (markup
-          #:pad-to-box '(0 . 0) '(0 . 2.4) #:ekmelic-fraction a)))))))
+          #:pad-to-box '(0 . 0) '(0 . 2.4) 
+          #:fontsize 5
+          #:ekmelic-fraction-small a)))))))
 
 noteNamesAndAlter =
 #(define-music-function (music)
