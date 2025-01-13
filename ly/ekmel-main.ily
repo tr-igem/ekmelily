@@ -307,7 +307,7 @@ ekmScaleNames = #'#(
       (ly:stencil-stack
         (ly:stencil-translate-axis
           (grob-interpret-markup grob
-            (make-ekmelic-acc-markup (if cancel 0 (cdr a)) #f #f))
+            (make-ekmelic-acc-markup (if cancel 0 (cdr a)) #f 'pad))
           (* su (car (key-signature-interface::alteration-positions a c0 grob)))
           Y)
         X RIGHT
