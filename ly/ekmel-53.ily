@@ -1,5 +1,5 @@
 %% This file is part of Ekmelily - Notation of microtonal music with LilyPond.
-%% Copyright (C) 2013-2024  Thomas Richter <thomas-richter@aon.at>
+%% Copyright (C) 2013-2025  Thomas Richter <thomas-richter@aon.at>
 %%
 %% This program is free software: you can redistribute it and/or modify
 %% it under the terms of the GNU General Public License as published by
@@ -14,7 +14,6 @@
 %%
 %%
 %% File: ekmel-53.ily  -  Include file for the 53-EDO tuning
-%% Latest revision: 2024-03-26
 %%
 %%
 %% This file is mainly intended for Turkish music based on the
@@ -274,7 +273,7 @@ ekmNotations = #'(
 % Padding table
 ekmPadding = #'(
   (#xE450 . 1.1)
-  (#xE454 . 1.2)
+  (#xE454 . 1.23)
   (#xE455 . 1.1)
   (#xE456 . 1.1)
   (#xE457 . 1.1)
