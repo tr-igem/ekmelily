@@ -271,4 +271,14 @@ ekmNotations = #'(
 )
 
 
+% Padding table
+ekmPadding = #'(
+  (#xE450 . 1.1)
+  (#xE454 . 1.2)
+  (#xE455 . 1.1)
+  (#xE456 . 1.1)
+  (#xE457 . 1.1)
+)
+
+
 \include "ekmel-main.ily"
