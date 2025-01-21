@@ -1,5 +1,5 @@
 %% This file is part of Ekmelily - Notation of microtonal music with LilyPond.
-%% Copyright (C) 2013-2024  Thomas Richter <thomas-richter@aon.at>
+%% Copyright (C) 2013-2025  Thomas Richter <thomas-richter@aon.at>
 %%
 %% This program is free software: you can redistribute it and/or modify
 %% it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
 %%
 %%
 %% File: ekmel-main.ily  -  Main include file
-%% Latest revision: 2024-11-15
+%%
 %%
 
 \version "2.19.22"
@@ -513,6 +513,37 @@ ekmelicOutputSuffix =
         els))))
 
 
+%% Text align
+
+#(define ekm:textalign '())
+
+#(define-markup-command (ekmelic-acc-text layout props alt)
+  (rational?)
+  #:properties ((font-size 0))
+  (let* ((acc (assv-ref ekm:notation alt))
+         (tal (if acc (or (assoc-ref ekm:textalign (last acc)) DOWN) DOWN))
+         (sil (interpret-markup layout props
+                (make-ekmelic-acc-markup alt #f #f))))
+    (cond
+      ((= DOWN tal)
+        (ly:stencil-aligned-to sil Y DOWN))
+      ((= CENTER tal)
+        (let ((ctr (interpret-markup layout
+                     (cons
+                      `((font-size . ,(+ ekm:font-size font-size))
+                        (font-name . ,ekm:font-name))
+                       props)
+                     (ekm:elem->markup
+                       (if (defined? 'ekmTextCenter) ekmTextCenter #xEAA4)))))
+          (ly:stencil-translate-axis
+            sil (interval-center (ly:stencil-extent ctr Y)) Y)))
+      ((< 32 tal)
+        (interpret-markup layout props
+          (make-ekm-char-markup tal)))
+      (else
+        (ly:stencil-translate-axis sil tal Y)))))
+
+
 %% NoteNames context
 
 #(define (ekm:pitch-name-old p l)
@@ -563,8 +594,7 @@ ekmelicOutputSuffix =
             (or (eq? 'fraction acc) acc)
             (if (eq? 'all acc) -1 0)))
         (if (or (eq? #t acc) (eq? 'accidental acc))
-          (make-raise-markup 0.5
-            (make-ekmelic-acc-markup (ly:pitch-alteration p) #f #f))
+          (make-ekmelic-acc-text-markup (ly:pitch-alteration p))
           empty-markup)
         (if (eq? 'fraction acc)
           (make-ekmelic-fraction-small-markup (ly:pitch-alteration p))
@@ -623,6 +653,14 @@ ekmelicOutputSuffix =
       '(#xE260 . 0.375)
       '(#xE264 . 0.65)
       (if (defined? 'ekmPadding) ekmPadding '()))))
+
+#(set! ekm:textalign
+  (map (lambda (e) (cons (ekm:elem->markup (car e)) (cdr e)))
+    (cons*
+      '(#xE261 . 0)
+      '(#xE262 . 0)
+      '(#xE263 . 0)
+      (if (defined? 'ekmTextAlign) ekmTextAlign '()))))
 
 
 \layout {
