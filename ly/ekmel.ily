@@ -1,5 +1,5 @@
 ﻿%% This file is part of Ekmelily - Notation of microtonal music with LilyPond.
-%% Copyright (C) 2013-2024  Thomas Richter <thomas-richter@aon.at>
+%% Copyright (C) 2013-2025  Thomas Richter <thomas-richter@aon.at>
 %%
 %% This program is free software: you can redistribute it and/or modify
 %% it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
 %%
 %%
 %% File: ekmel.ily  -  Include file for 72-EDO tuning
-%% Latest revision: 2024-03-08
+%%
 %%
 %% Note names from the semitone and quarter-tone names in LilyPond 2.22
 %% Copyright (C) 2010--2020 Valentin Villenave <valentin@villenave.net> et al.
@@ -752,6 +752,37 @@ ekmNotations = #'(
   (#x4B #xE47B #xE48F #xE264)
   (#x50 #xE48E #xE263)
   (#x51 #xE48F #xE264)))
+)
+
+
+% Text align table
+ekmTextAlign = #'(
+  ; wys
+  (#xE422 . 0)
+  (#xE423 . 0)
+  (#xE424 . 0)
+  (#xE425 . 0)
+  (#xE426 . 0)
+  (#xE427 . 0)
+  (#xE428 . 0)
+  (#xE429 . 0)
+  (#xE42A . 0)
+  (#xE42B . 0.5)
+  (#xE42C . 0.5)
+  (#xE42D . 0.5)
+  (#xE431 . 0.5)
+  (#xE432 . 0.5)
+  (#xE433 . 0.5)
+  ; go
+  (#xE274 . 0)
+  (#xE275 . 0)
+  (#xE276 . 0)
+  (#xE277 . 0)
+  (#xE272 . 0)
+  (#xE273 . 0)
+  ; stz
+  (#xE282 . 0)
+  (#xE283 . 0)
 )
 
 
