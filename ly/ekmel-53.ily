@@ -280,4 +280,20 @@ ekmPadding = #'(
 )
 
 
+% Text align table
+ekmTextAlign = #'(
+  ; aeu
+  (#xE444 . 0)
+  (#xE445 . 0)
+  (#xE446 . 0)
+  (#xE447 . 0)
+  (#xED38 . 0)
+  ; thm
+  (#xE450 . 0)
+  (#xE451 . 0)
+  (#xE452 . 0)
+  (#xE453 . 0)
+)
+
+
 \include "ekmel-main.ily"
