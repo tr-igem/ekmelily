@@ -1,5 +1,5 @@
 %% This file is part of Ekmelily - Notation of microtonal music with LilyPond.
-%% Copyright (C) 2024  Thomas Richter <thomas-richter@aon.at>
+%% Copyright (C) 2024-2025  Thomas Richter <thomas-richter@aon.at>
 %%
 %% This program is free software: you can redistribute it and/or modify
 %% it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
 %%
 %%
 %% File: ekmel-5ji.ily  -  Include file for 5-limit JI
-%% Latest revision: 2024-03-08
+%%
 %%
 %% Note names from the semitone and quarter-tone names in LilyPond 2.22
 %% Copyright (C) 2010--2020 Valentin Villenave <valentin@villenave.net> et al.
@@ -210,6 +210,30 @@ ekmNotations = #'(
   (#x4D #xE2CA)
   (#x54 #xE2DD)
   (#x55 #xE2D4)))
+)
+
+
+% Text align table
+ekmTextAlign = #'(
+  ; he
+  (#xE2C3 . 0)
+  (#xE2C8 . 0)
+  (#xE2CD . 0)
+  (#xE2D2 . 0)
+  (#xE2D7 . 0)
+  (#xE2DC . 0)
+  (#xE2C4 . 0)
+  (#xE2C9 . 0)
+  (#xE2CE . 0)
+  (#xE2D3 . 0)
+  (#xE2D8 . 0)
+  (#xE2DD . 0)
+  (#xE2C2 . 0)
+  (#xE2C7 . 0)
+  (#xE2CC . 0)
+  (#xE2D1 . 0)
+  (#xE2D6 . 0)
+  (#xE2DB . 0)
 )
 
 
