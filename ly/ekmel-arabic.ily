@@ -1,5 +1,5 @@
 ﻿%% This file is part of Ekmelily - Notation of microtonal music with LilyPond.
-%% Copyright (C) 2013-2024  Thomas Richter <thomas-richter@aon.at>
+%% Copyright (C) 2013-2025  Thomas Richter <thomas-richter@aon.at>
 %%
 %% This program is free software: you can redistribute it and/or modify
 %% it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
 %%
 %%
 %% File: ekmel-arabic.ily  -  Include file for Arabic scores (24-EDO)
-%% Latest revision: 2024-09-10
+%%
 %%
 %% This file is a variant of "ekmel-24.ily" for Arabic scores,
 %% like LilyPond's "arabic.ly" and "hel-arabic.ly"
@@ -119,6 +119,20 @@ ekmPadding = #'(
   (#xED32 . 0.375)
   (#xED31 . 0.5)
   (#xED30 . 0.65)
+)
+
+
+% Text align table
+ekmTextAlign = #'(
+  ; arabic
+  (#xED34 . 0)
+  (#xED35 . 0)
+  (#xED36 . 0)
+  (#xED37 . 0)
+  (#xED38 . 0)
+  ; helmakam
+  (#xE446 . 0)
+  (#xE447 . 0)
 )
 
 
