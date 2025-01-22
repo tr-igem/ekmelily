@@ -265,5 +265,6 @@ Version 3.13 (20 August 2023)
 2025-01-22:
 - ekmel-main.ily: Added markup command "\ekmelic-acc-text" for accidentals
   outside of a staff (issue #11).
-- ekmel.ily: Added table "ekmTextAlign" for accidentals in the notation styles
-  "wys", "gostc", "gostz".
+- ekmel.ily, ekmel-24.ily, ekmel-31.ily, ekmel-36.ily, ekmel-48.ily,
+  ekmel-53.ily, ekmel-5ji.ily, ekmel-arabic.ily:
+  Added table "ekmTextAlign" for issue #11.
