@@ -268,3 +268,6 @@ Version 3.13 (20 August 2023)
 - ekmel.ily, ekmel-24.ily, ekmel-31.ily, ekmel-36.ily, ekmel-48.ily,
   ekmel-53.ily, ekmel-5ji.ily, ekmel-arabic.ily:
   Added table "ekmTextAlign" for issue #11.
+
+2025-01-25:
+- ekmel-main.ily: Renamed "\ekmelic-acc-text" to "\ekmelic-char-text".
