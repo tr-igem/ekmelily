@@ -517,7 +517,7 @@ ekmelicOutputSuffix =
 
 #(define ekm:textalign '())
 
-#(define-markup-command (ekmelic-acc-text layout props alt)
+#(define-markup-command (ekmelic-char-text layout props alt)
   (rational?)
   #:properties ((font-size 0))
   (let* ((acc (assv-ref ekm:notation alt))
@@ -594,7 +594,7 @@ ekmelicOutputSuffix =
             (or (eq? 'fraction acc) acc)
             (if (eq? 'all acc) -1 0)))
         (if (or (eq? #t acc) (eq? 'accidental acc))
-          (make-ekmelic-acc-text-markup (ly:pitch-alteration p))
+          (make-ekmelic-char-text-markup (ly:pitch-alteration p))
           empty-markup)
         (if (eq? 'fraction acc)
           (make-ekmelic-fraction-small-markup (ly:pitch-alteration p))
