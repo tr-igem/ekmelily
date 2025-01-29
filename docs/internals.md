@@ -191,9 +191,8 @@ alteration if present, else with an empty markup and produce a warning.
 Padding
 -------
 
-The padding table defines extra padding for some accidentals. It is used
-only for normal accidentals without parentheses, not for key signatures,
-grace note accidentals, trill pitch accidentals, etc.
+The padding table defines the extra padding of accidentals. It is used
+for normal accidentals without parentheses and for key signatures.
 
 The variable `ekmPadding` defines an alist of paddings mapped onto
 accidentals. It is optional and extends the predefined list.
@@ -215,6 +214,45 @@ The predefined list currently includes flat and double-flat:
     (transparent) box relative to the right edge of the accidental.
     The box is used to change the right horizontal skyline of the
     accidental.
+
+
+
+Text align
+----------
+
+The text align table defines the vertical alignment of accidentals
+for use outside of a staff, e.g. in a NoteNames context, trill spanner,
+figured bass, or function theory text.
+Is is used by the markup command `\ekmelic-char-text`.
+
+The variable `ekmTextAlign` defines an alist of alignments mapped onto
+accidentals. It is optional and extends the predefined list.
+
+    ekmTextAlign = #'(
+      (ELEMENT . ALIGN)
+      ...
+    )
+
+The predefined list currently includes natural, sharp, and double-sharp:
+
+    (#xE261 . 0)
+    (#xE262 . 0)
+    (#xE263 . 0)
+
+*   ELEMENT: A codepoint (integer), character, string, or any markup
+    defining the accidental.
+
+*   ALIGN (number): One of the following:
+
+    *   `DOWN` (-1): Bottom aligned. This is the default for accidentals
+        without an entry in the text align table (e.g. flat).
+
+    *   `CENTER` (0): Center aligned to the midline of another glyph
+        defined with the variable `ekmTextCenter` or wiggleTrill (U+EAA4).
+
+    *   > 32: Codepoint of a glyph to draw instead of the accidental.
+
+    *   Else: Vertically translated by ALIGN.
 
 
 
