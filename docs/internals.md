@@ -250,7 +250,7 @@ The predefined list currently includes natural, sharp, and double-sharp:
     *   `CENTER` (0): Center aligned to the midline of another glyph
         defined with the variable `ekmTextCenter` or wiggleTrill (U+EAA4).
 
-    *   > 32: Codepoint of a glyph to draw instead of the accidental.
+    *   &gt; 32: Codepoint of a glyph to draw instead of the accidental.
 
     *   Else: Vertically translated by ALIGN.
 
