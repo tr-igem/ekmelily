@@ -156,6 +156,19 @@ ekmScaleNames = #'#(
     (set! pitchnames p)
     (ly:parser-set-note-names p)))
 
+#(define (ekm:genalter? x)
+  (or (rational? x) (symbol? x)))
+
+#(define (ekm:genalter->alter genalt)
+  (if (rational? genalt)
+    genalt
+    (let mem ((l (ekm:alter-names-table ekm:language)))
+      (if (null? l)
+        EKM-ALTER-ENHEQ
+        (if (memq genalt (cdar l))
+          (ekm:code->alter (caar l))
+          (mem (cdr l)))))))
+
 
 %% Notation (style)
 
@@ -384,15 +397,16 @@ ekmelicOutputSuffix =
   (interpret-markup layout props
     ekm:font-name))
 
-#(define-markup-command (ekmelic-char layout props alt)
-  (rational?)
+#(define-markup-command (ekmelic-char layout props genalt)
+  (ekm:genalter?)
   #:properties ((font-size 1))
-  (interpret-markup
-    layout
-    (cons `((font-size . ,(- font-size 3))
-            (alteration . ,alt))
-          props)
-    (make-ekmelic-acc-markup alt #f #f)))
+  (let ((alt (ekm:genalter->alter genalt)))
+    (interpret-markup
+      layout
+      (cons `((font-size . ,(- font-size 3))
+              (alteration . ,alt))
+            props)
+      (make-ekmelic-acc-markup alt #f #f))))
 
 #(define-markup-command (ekmelic-elem layout props elem)
   (ekm:elem?)
@@ -517,10 +531,11 @@ ekmelicOutputSuffix =
 
 #(define ekm:textalign '())
 
-#(define-markup-command (ekmelic-char-text layout props alt)
-  (rational?)
+#(define-markup-command (ekmelic-char-text layout props genalt)
+  (ekm:genalter?)
   #:properties ((font-size 0))
-  (let* ((acc (assv-ref ekm:notation alt))
+  (let* ((alt (ekm:genalter->alter genalt))
+         (acc (assv-ref ekm:notation alt))
          (tal (if acc (or (assoc-ref ekm:textalign (last acc)) DOWN) DOWN))
          (sil (interpret-markup layout props
                 (make-ekmelic-acc-markup alt #f #f))))
