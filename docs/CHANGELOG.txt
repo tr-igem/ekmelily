@@ -271,3 +271,7 @@ Version 3.13 (20 August 2023)
 
 2025-01-25:
 - ekmel-main.ily: Renamed "\ekmelic-acc-text" to "\ekmelic-char-text".
+
+2025-02-27:
+- ekmel-main.ily: Changed commands "\ekmelic-char" and "\ekmelic-char-text"
+  to accept alteration names (issue #12).
