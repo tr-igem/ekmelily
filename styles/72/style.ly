@@ -19,6 +19,7 @@
 % \ekmelicStyle hesse
 % \ekmelicStyle msag
 % \ekmelicStyle rhm
+% \ekmelicStyle rhmk
 % \ekmelicStyle sag
 % \ekmelicStyle sims
 % \ekmelicStyle wys
