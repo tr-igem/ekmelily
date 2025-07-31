@@ -1,5 +1,5 @@
 %% This file is part of Ekmelily - Notation of microtonal music with LilyPond.
-%% Copyright (C) 2024  Thomas Richter <thomas-richter@aon.at>
+%% Copyright (C) 2024-2025  Thomas Richter <thomas-richter@aon.at>
 %%
 %% This program is free software: you can redistribute it and/or modify
 %% it under the terms of the GNU General Public License as published by
@@ -14,7 +14,6 @@
 %%
 %%
 %% File: notation-names.ily  -  All notation styles in Ekmelily
-%% Latest revision: 2024-11-14
 %%
 
 \version "2.19.22"
@@ -24,6 +23,7 @@ ekmNotationNames = #'(
   (std . "Standard")
   (arrow . "Arrow")
   (rhm . "Richter Herf / Maedel")
+  (rhmk . "Richter Herf / Maedel kink arrow")
   (sims . "Sims")
   (hesse . "Hesse")
   (sag . "Sagittal")
@@ -49,6 +49,7 @@ ekmNotationNames = #'(
   (dia . "Diatonic")
   (he . "Extended Helmholtz-Ellis")
   (om . "OpenMusic")
+  (bl . "Blackwood")
   (void . "No symbol")
   (alteration . "Alteration value")
   (alteration-slash . "Alteration value with slash")
