@@ -268,6 +268,28 @@ ekmLanguages = #'(
   (#x50 ississih)
   (#x51 essesseh)))
 
+;; Swedish names by Mats Bengtsson <mabe@violin.s3.kth.se>
+;; Torsten Hämmerle <torsten.haemmerle@web.de>  quarter-tones added
+;; with b instead of h after lilypond-user thread 2025-04/msg00124
+(svenska_ny . (
+  0
+  (("ees" . "es") "ees"
+   ("aes" . "as") "aes")
+  (#x1a ih)
+  (#x1b eh)
+  (#x21a isseh)
+  (#x21b essih)
+  (#x28 iss)
+  (#x29 ess)
+  (#x36 issih)
+  (#x37 esseh)
+  (#x236 ississeh)
+  (#x237 essessih)
+  (#x44 ississ)
+  (#x45 essess)
+  (#x50 ississih)
+  (#x51 essesseh)))
+
 ;; Vlaams names by Hendrik Maryns <hendrik.maryns@ugent.be>
 ;; Torsten Hämmerle <torsten.haemmerle@web.de>  quarter-tones added
 (vlaams . (
@@ -486,6 +508,24 @@ ekmNotations = #'(
   (#x45 #xE264)
   (#x50 #xEE64 #xE263)
   (#x51 #xEE67 #xE264)))
+
+;; Blackwood notation
+(bl . (
+  (#x00 #xE261)
+  (#x1A #xF611)
+  (#x1B #xF611 #xE260)
+  (#x21A #xF610 #xE262)
+  (#x21B #xF610)
+  (#x28 #xE262)
+  (#x29 #xE260)
+  (#x36 #xF611 #xE262)
+  (#x37 #xF611 #xE264)
+  (#x236 #xF610 #xE263)
+  (#x237 #xF610 #xE260)
+  (#x44 #xE263)
+  (#x45 #xE264)
+  (#x50 #xF611 #xE263)
+  (#x51 #xF610 #xE264)))
 )
 
 

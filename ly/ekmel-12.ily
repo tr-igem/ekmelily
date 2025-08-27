@@ -1,5 +1,5 @@
 ﻿%% This file is part of Ekmelily - Notation of microtonal music with LilyPond.
-%% Copyright (C) 2013-2024  Thomas Richter <thomas-richter@aon.at>
+%% Copyright (C) 2013-2025  Thomas Richter <thomas-richter@aon.at>
 %%
 %% This program is free software: you can redistribute it and/or modify
 %% it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
 %%
 %%
 %% File: ekmel-12.ily  -  Include file for 12-EDO tuning
-%% Latest revision: 2024-03-08
+%%
 %%
 %% Note names from the semitone names in LilyPond 2.22
 %% Copyright (C) 2010--2020 Valentin Villenave <valentin@villenave.net> et al.
@@ -139,9 +139,20 @@ ekmLanguages = #'(
 ;; Swedish names by Mats Bengtsson <mabe@violin.s3.kth.se>
 (svenska . (
   1
-  (("ee" . "e") "ee"
-   ("ae" . "a") "ae"
+  (("ees" . "es") "ees"
+   ("aes" . "as") "aes"
    (hess . b) hess)
+  (#x28 iss)
+  (#x29 ess)
+  (#x44 ississ)
+  (#x45 essess)))
+
+;; Swedish names by Mats Bengtsson <mabe@violin.s3.kth.se>
+;; with b instead of h after lilypond-user thread 2025-04/msg00124
+(svenska_ny . (
+  0
+  (("ees" . "es") "ees"
+   ("aes" . "as") "aes")
   (#x28 iss)
   (#x29 ess)
   (#x44 ississ)
