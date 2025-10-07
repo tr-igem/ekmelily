@@ -10,20 +10,22 @@
 
 \language "deutsch"
 
-% \ekmelicStyle arabic
-% \ekmelicStyle arrow
-% \ekmelicStyle four
-% \ekmelicStyle go
-% \ekmelicStyle haba
-% \ekmelicStyle msag
-% \ekmelicStyle persian
-% \ekmelicStyle sag
-% \ekmelicStyle stc
-% \ekmelicStyle stvt
-% \ekmelicStyle stz
+% \ekmStyle arabic
+% \ekmStyle arrow
+% \ekmStyle four
+% \ekmStyle go
+% \ekmStyle haba
+% \ekmStyle msag
+% \ekmStyle persian
+% \ekmStyle sag
+% \ekmStyle stc
+% \ekmStyle stvt
+% \ekmStyle stz
+% \ekmStyle bl
 
-% \ekmelicStyle alteration
-% \ekmelicStyle step
+% \ekmStyle alteration
+% \ekmStyle alteration-slash
+% \ekmStyle step
 
 %userStyle = #'(
 %  "persianext"
@@ -45,7 +47,7 @@
 %   ;(#x51 #)
 %))
 
-% \ekmelicUserStyle #(first userStyle) #(second userStyle)
+% \ekmUserStyle #(first userStyle) #(second userStyle)
 
 languageNames = #'(
   "nederlands"
