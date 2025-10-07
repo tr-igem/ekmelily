@@ -281,3 +281,7 @@ Version 3.13 (20 August 2023)
 
 2025-07-31:
 - ekmel.ily: Added Richter Herf / Maedel kink arrow notation "rhmk".
+
+2025-10-07:
+- ekmel-main.ily: Rename to "\ekmStyle" and "\ekmUserStyle".
+  Add option "ekmstyle".
