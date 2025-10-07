@@ -330,7 +330,7 @@ ekmScaleNames = #'#(
       (ly:grob-property grob 'alteration-alist))))
 
 
-%% Aux procs for ekmelicUserStyle
+%% Aux procs for ekmUserStyle
 
 #(define (ekm:list-prefix pfx l)
   (cond
@@ -358,12 +358,12 @@ language =
   (string?)
   (ekm:set-language lang))
 
-ekmelicStyle =
+ekmStyle =
 #(define-void-function (style)
   (string?)
   (ekm:set-notation style))
 
-ekmelicUserStyle =
+ekmUserStyle =
 #(define-void-function (name def)
   (string? list?)
   (set! ekm:notation-name
@@ -383,6 +383,9 @@ ekmelicUserStyle =
 ekmelicOutputSuffix =
 #(define-void-function () ()
   (set! (paper-variable #f 'output-suffix) ekm:notation-name))
+
+ekmelicStyle = #ekmStyle
+ekmelicUserStyle = #ekmUserStyle
 
 
 %% Markup commands
@@ -624,14 +627,15 @@ ekmelicOutputSuffix =
 
 %% Initializations
 
-#(let* ((f (or (ly:get-option 'ekmfont) (ly:get-option 'ekmelic-font)))
-        (f (if f (symbol->string f)
-           (if (defined? 'ekmFont) ekmFont
-           (if (defined? 'ekmelicFont) ekmelicFont ""))))
-        (p (string-suffix? "#" f))
-        (f (if p (string-drop-right f 1) f)))
-  (set! ekm:font-name (if (string-null? f) "Ekmelos" f))
-  (set! ekm:draw-paths (and p (defined? 'ekm-path-stencil))))
+#(let* ((font (ly:get-option 'ekmfont))
+        (font (if font (symbol->string font)
+              (if (defined? 'ekmFont) ekmFont
+              (if (defined? 'ekmelicFont) ekmelicFont ""))))
+        (path (string-suffix? "#" font))
+        (font (if path (string-drop-right font 1) font))
+        (font (if (string-null? font) "Ekmelos" font)))
+  (set! ekm:font-name font)
+  (set! ekm:draw-paths (and path (defined? 'ekm-path-stencil))))
 
 #(let ((s (assv-ref ekmTuning -1)))
   (ly:set-default-scale
@@ -660,7 +664,7 @@ ekmelicOutputSuffix =
 ))
 
 #(ekm:set-notation (symbol->string
-  (or (ly:get-option 'ekmelic-style) (caar ekmNotations))))
+  (or (ly:get-option 'ekmstyle) (ly:get-option 'ekmelic-style) (caar ekmNotations))))
 
 #(set! ekm:padding
   (map (lambda (e) (cons (ekm:elem->markup (car e)) (cdr e)))
