@@ -31,8 +31,8 @@ styleFontOutputSuffix =
       #:override `(font-name . ,ekm:font-name)
       #:vcenter #:fontsize 4 #:hcenter-in 4
         #:pad-markup 0.5 (ly:wide-char->utf-8 code)
-      #:vcenter #:typewriter #:fontsize -3 #:hcenter-in 7
-        #:ekmelic-fraction alt
+      #:vcenter #:typewriter #:hcenter-in 7
+        #:ekmelic-fraction-small alt
       #:vcenter #:typewriter #:hcenter-in 13
         (format #f "U+~:@(~4,'0x~)" code)
       #:vcenter #:typewriter
@@ -77,7 +77,7 @@ styleFontOutputSuffix =
   (let* ((u (defined? 'userStyle))
          (m (if u
               (append
-                (list (string-append "\\ekmelicUserStyle " (first userStyle) " #'("))
+                (list (string-append "\\ekmUserStyle " (first userStyle) " #'("))
                 (map (lambda (e)
                   (format #f "  (~a~a)"
                     (car e)
@@ -87,14 +87,14 @@ styleFontOutputSuffix =
                         (cdr e)))))
                   (second userStyle))
                 (list ")"))
-              (list (string-append "\\ekmelicStyle " ekm:notation-name))))
+              (list (string-append "\\ekmStyle " ekm:notation-name))))
          (m (cons*
               (string-append "\\include \x22" inc "\x22")
               m))
          (m (if (string=? "Ekmelos" ekm:font-name)
               m
               (cons*
-                (string-append "ekmelicFont = \x22" ekm:font-name "\x22")
+                (string-append "ekmFont = \x22" ekm:font-name "\x22")
                 m))))
     (interpret-markup layout props (markup
       #:override '(baseline-skip . 2.8)
@@ -133,7 +133,7 @@ styleFontOutputSuffix =
         (map (lambda (l) (ekm:pitch-name p l 'lily 0))
           languageNames)
         (list (markup
-          #:pad-to-box '(0 . 0) '(0 . 2.4) 
+          #:pad-to-box '(0 . 0) '(0 . 2.4)
           #:fontsize 5
           #:ekmelic-fraction-small a)))))))
 

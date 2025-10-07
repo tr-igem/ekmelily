@@ -11,7 +11,7 @@
 
 \include "ekmel.ily"
 
-\ekmelicUserStyle hewm #'(
+\ekmUserStyle hewm #'(
     (1 #\x)
     (-1 #\b #\b)
     (1/2 #\#)
@@ -29,7 +29,7 @@
 
 \include "ekmel.ily"
 
-\ekmelicUserStyle simsascii #'(
+\ekmUserStyle simsascii #'(
     (1 #\x)
     (-1 #\b #\b)
     (1/2 #\#)
@@ -47,7 +47,7 @@
 
 \include "ekmel.ily"
 
-\ekmelicUserStyle saglong #'(
+\ekmUserStyle saglong #'(
     (0 #\| #\/ #\/ #\|)
     (1/12 #\/ #\|)
     (-1/12 #\\ #\!)
@@ -86,7 +86,7 @@
 
 \include "ekmel.ily"
 
-\ekmelicUserStyle sagshort #'(
+\ekmUserStyle sagshort #'(
     (0 #\e)
     (1/12 #\/)
     (-1/12 #\\)
@@ -125,7 +125,7 @@
 
 \include "ekmel.ily"
 
-\ekmelicUserStyle msagascii #'(
+\ekmUserStyle msagascii #'(
     (0 #\e)
     (1 #\x)
     (-1 #\b #\b)
@@ -145,7 +145,7 @@
 
 \include "ekmel.ily"
 
-\ekmelicUserStyle altascii #'(
+\ekmUserStyle altascii #'(
     (1 #\# #\#)
     (-1 #\b #\b)
     (1/2 #\#)
@@ -174,9 +174,9 @@
 
 \include "ekmel-24.ily"
 
-\ekmelicStyle arrow
+\ekmStyle arrow
 
-\ekmelicUserStyle bus #'(
+\ekmUserStyle bus #'(
     (3/4 #xE474)
     (1/4 #xE472)
     (-5/4 #xE472 #xE260 #xE264)
@@ -191,9 +191,9 @@
 
 \include "ekmel-24.ily"
 
-\ekmelicStyle stc
+\ekmStyle stc
 
-\ekmelicUserStyle wstc #'(
+\ekmUserStyle wstc #'(
     (1/4 #xE475))
 
 %-----------------------------------------------------------------------
@@ -204,9 +204,9 @@
 
 \include "ekmel-24.ily"
 
-\ekmelicStyle stz
+\ekmStyle stz
 
-\ekmelicUserStyle stp #'(
+\ekmUserStyle stp #'(
     (-1/4 #xE478))
 
 %-----------------------------------------------------------------------
@@ -217,9 +217,9 @@
 
 \include "ekmel-24.ily"
 
-\ekmelicStyle stz
+\ekmStyle stz
 
-\ekmelicUserStyle stg #'(
+\ekmUserStyle stg #'(
     (-3/4 #xE486))
 
 %-----------------------------------------------------------------------
@@ -229,7 +229,7 @@
 
 \include "ekmel-36.ily"
 
-\ekmelicUserStyle xen #'(
+\ekmUserStyle xen #'(
     (2/3 #xE471)
     (-2/3 #xE470 #xE264)
     (1/3 #xE470)
@@ -243,9 +243,9 @@
 
 \include "ekmel-24.ily"
 
-\ekmelicStyle stz
+\ekmStyle stz
 
-\ekmelicUserStyle stockhausen #'(
+\ekmUserStyle stockhausen #'(
     (3/4 #xED5A)
     (-3/4 #xED59 #xE260)
     (1/4 #xED58)
@@ -263,7 +263,7 @@
 
 \include "ekmel-24.ily"
 
-\ekmelicUserStyle diaQuarter #'(
+\ekmUserStyle diaQuarter #'(
     (1 #xF61C)
     (-1 #xF61D)
     (3/4 #xE265)
@@ -294,7 +294,7 @@
 
 \include "ekmel-48.ily"
 
-\ekmelicUserStyle lilysingle #`(
+\ekmUserStyle lilysingle #`(
     (0 ,(markup #:natural))
     (1/8 ,(markup #:musicglyph "accidentals.natural.arrowup"))
     (-1/8 ,(markup #:musicglyph "accidentals.natural.arrowdown"))
@@ -323,7 +323,7 @@
 
 \include "ekmel-24.ily"
 
-\ekmelicUserStyle lilycombined #`(
+\ekmUserStyle lilycombined #`(
     (0 ,(markup #:natural))
     (1/4 ,(markup #:translate '(0 . 0.5) #:arrow-head Y UP #f))
     (-1/4 ,(markup #:translate '(0 . -0.5) #:arrow-head Y DOWN #f))
@@ -362,9 +362,9 @@
       (cons '((font-size . -3)) props)
       (markup #:vcenter #:ekmelic-fraction alt))))
 
-\ekmelicStyle void
+\ekmStyle void
 
-\ekmelicUserStyle numeric #`(
+\ekmUserStyle numeric #`(
   (default ,(markup #:numeric-accidental)))
 
 %-----------------------------------------------------------------------
