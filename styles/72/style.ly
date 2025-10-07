@@ -10,23 +10,23 @@
 
 \language "deutsch"
 
-% \ekmelicStyle arrow
-% \ekmelicStyle bos
-% \ekmelicStyle fern
-% \ekmelicStyle gostc
-% \ekmelicStyle gostz
-% \ekmelicStyle haba
-% \ekmelicStyle hesse
-% \ekmelicStyle msag
-% \ekmelicStyle rhm
-% \ekmelicStyle rhmk
-% \ekmelicStyle sag
-% \ekmelicStyle sims
-% \ekmelicStyle wys
+% \ekmStyle arrow
+% \ekmStyle bos
+% \ekmStyle fern
+% \ekmStyle gostc
+% \ekmStyle gostz
+% \ekmStyle haba
+% \ekmStyle hesse
+% \ekmStyle msag
+% \ekmStyle rhm
+% \ekmStyle rhmk
+% \ekmStyle sag
+% \ekmStyle sims
+% \ekmStyle wys
 
-% \ekmelicStyle alteration
-% \ekmelicStyle alteration-slash
-% \ekmelicStyle step
+% \ekmStyle alteration
+% \ekmStyle alteration-slash
+% \ekmStyle step
 
 %% HEWM (Helmholtz / Ellis / Wolf / Monzo) notation
 %userStyle = #'(
@@ -80,7 +80,7 @@
 %   (#x44 #\x) ; 1
 %))
 
-% \ekmelicUserStyle #(first userStyle) #(second userStyle)
+% \ekmUserStyle #(first userStyle) #(second userStyle)
 
 languageNames = #'(
   "nederlands"
