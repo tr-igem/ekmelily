@@ -10,13 +10,14 @@
 
 \language "deutsch"
 
-% \ekmelicStyle msag
-% \ekmelicStyle om
-% \ekmelicStyle persian
-% \ekmelicStyle sag
+% \ekmStyle msag
+% \ekmStyle om
+% \ekmStyle persian
+% \ekmStyle sag
 
-% \ekmelicStyle alteration
-% \ekmelicStyle step
+% \ekmStyle alteration
+% \ekmStyle alteration-slash
+% \ekmStyle step
 
 languageNames = #'(
   "nederlands"
