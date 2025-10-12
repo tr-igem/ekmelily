@@ -10,14 +10,15 @@
 
 \language "makam"
 
-% \ekmelicStyle aeu
-% \ekmelicStyle aeuek
-% \ekmelicStyle dia
-% \ekmelicStyle sag
-% \ekmelicStyle thm
+% \ekmStyle aeu
+% \ekmStyle aeuek
+% \ekmStyle dia
+% \ekmStyle sag
+% \ekmStyle thm
 
-% \ekmelicStyle alteration
-% \ekmelicStyle step
+% \ekmStyle alteration
+% \ekmStyle alteration-slash
+% \ekmStyle step
 
 languageNames = #'(
   "makam"
