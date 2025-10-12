@@ -140,6 +140,7 @@ languageNames = #'(
       \tag #'l cisisil
       \tag #'h cisisih
       \bar "" \break
+
                c
       \tag #'r cer
       \tag #'l cel
@@ -179,6 +180,7 @@ languageNames = #'(
       \tag #'l gisisil
       \tag #'h gisisih
       \bar "" \break
+
                g
       \tag #'r ger
       \tag #'l gel
