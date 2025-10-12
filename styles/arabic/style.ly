@@ -10,11 +10,12 @@
 
 \language "arabic"
 
-% \ekmelicStyle arabic
-% \ekmelicStyle helmakam
+% \ekmStyle arabic
+% \ekmStyle helmakam
 
-% \ekmelicStyle alteration
-% \ekmelicStyle step
+% \ekmStyle alteration
+% \ekmStyle alteration-slash
+% \ekmStyle step
 
 languageNames = #'(
   "italiano"
