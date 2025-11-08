@@ -20,11 +20,11 @@
 ekmFont = "Bravura"
 %%  Font for the accidentals. Default is "Ekmelos".
 
-ekmSystem = "72-sims"
-%%  Tuning and/or notation style, separated by `-`.
-%%  The value can be a symbol, string, or number.
-%%  This includes the corresponding Ekmelily file.
-%%  Default is 24 with style "stc".
+ekmUse = "72-sims-english"
+%%  Tuning, notation style, and language, separated by `-`.
+%%  Each part is optional. Default tuning is 24.
+%%  The value can be a string, symbol, or number.
+%%  The corresponding Ekmelily file is included automatically.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -32,20 +32,22 @@ ekmSystem = "72-sims"
 %%
 %%  Commands:
 %%
-%%  - \ekmNoteTable SORT ENHARMONIC LANGUAGE
+%%  - \ekmNoteTable SORT ENHARMONIC
 %%    Create a music sequence of all notes within the one-line octave
 %%    with the accidentals of the selected notation style,
-%%    and with the alteration and the note name below each note.
+%%    and with the alterations and the note names of the selected language
+%%    below the notes.
 %%
-%%  - \ekm-notename-table SORT ENHARMONIC LANGUAGE
-%%    Draw a table with the note names as a markup list.
+%%  - \ekm-notename-table SORT ENHARMONIC
+%%    Draw a table with the note names of the selected language
+%%    as a markup list.
 %%
 %%  - \ekm-accidental-table SORT ENHARMONIC
 %%    Draw a table with the accidentals of the selected notation style
 %%    as a markup list.
 %%
 %%  - \ekmTableOutputSuffix
-%%    Set the tuning and the selected notation style
+%%    Set the tuning, notation style, and language
 %%    as the output filename suffix.
 %%
 %%  Parameters:
@@ -59,10 +61,6 @@ ekmSystem = "72-sims"
 %%
 %%  * ENHARMONIC (boolean):
 %%    #t includes enharmonically equivalent tone steps.
-%%
-%%  * LANGUAGE (string):
-%%    Language of the note names to draw. An unknown value or ""
-%%    uses the default language ("nederlands" in most tunings).
 %%
 %%  Used markup properties:
 %%
@@ -78,28 +76,40 @@ ekmSystem = "72-sims"
 
 \version "2.19.22"
 
-#(define ekm:system #f)
-#(define ekm:style #f)
+#(define ekm:tuning #f)
 #(define ekm:file #f)
+#(define ekm:style #f)
+#(define ekm:language-name #f)
 
-#(let* ((s (ly:get-option 'ekmsystem))
-        (s (or s (if (defined? 'ekmSystem) ekmSystem "")))
+#(let* ((s (or (ly:get-option 'ekmuse)
+               (and (defined? 'ekmUse) ekmUse)
+               (and (defined? 'ekmSystem) ekmSystem)
+               ""))
         (s (if (symbol? s) (symbol->string s)
            (if (number? s) (number->string s 10) s)))
-        (sl (string-split s #\-))
-        (s (if (string-null? (car sl)) "24" (car sl)))
-        (f (if (string=? "72" s)
+        (s (string-split s #\-))
+        (t (if (string-null? (car s)) "24" (car s)))
+        (f (if (string=? "72" t)
             "ekmel.ily"
-            (string-append "ekmel-" s ".ily"))))
-  (set! ekm:system s)
+            (string-append "ekmel-" t ".ily"))))
+  (set! ekm:tuning t)
   (set! ekm:file f)
   (set! ekm:style
-    (if (or (null? (cdr sl)) (string-null? (second sl))) #f (second sl)))
+    (if (or (null? (cdr s)) (string-null? (second s))) #f (second s)))
+  (set! ekm:language-name
+    (if (or (> 3 (length s)) (string-null? (third s))) #f (third s)))
   (if (ly:find-file f)
     (ly:parser-include-string (format #f "\\include \"~a\"\n" f))
-    (ly:error "Tuning '~a' does not exist" s)))
+    (ly:error "Tuning '~a' does not exist" t)))
 
-#(if ekm:style (ekm:set-notation ekm:style))
+#(if (and ekm:style
+          (assq (string->symbol ekm:style) ekmNotations))
+  (ekm:set-notation ekm:style))
+
+#(if (and ekm:language-name
+          (assq (string->symbol ekm:language-name) ekmLanguages))
+  (ekm:set-language ekm:language-name)
+  (set! ekm:language-name (symbol->string (caar ekmLanguages))))
 
 
 #(define (ekm:select enh ac)
@@ -135,18 +145,16 @@ ekmSystem = "72-sims"
 #(define (ekm:sort-break sort)
   (second (or (assq-ref ekm:sort sort) (cdar ekm:sort))))
 
-#(define (ekm:note-table sort enharmonic lang)
-  ;; Return (LANGUAGE ROW ...)
-  ;; ROW: (SCALE-STEP ALTER-STEP SCALE-INDEX CORRECT-ALTER ALTER NOTE-NAME ...)
-  ;;      or #t for break
-  (let* ((name (if (assq (string->symbol lang) ekmLanguages)
-                lang (symbol->string (caar ekmLanguages))))
-         (sca (or (assv-ref ekmTuning -1) '(0 1 2 5/2 7/2 9/2 11/2)))
+#(define (ekm:note-table sort enharmonic)
+  ;; Return a list with elements
+  ;; (SCALE-STEP ALTER-STEP SCALE-INDEX CORRECT-ALTER ALTER NOTE-NAME ...)
+  ;; or #t for break
+  (let* ((sca (or (assv-ref ekmTuning -1) '(0 1 2 5/2 7/2 9/2 11/2)))
          (alt (fold (lambda (e r)
                 (if (and (positive? (car e)) (< (cdr e) r)) (cdr e) r))
                 1 ekmTuning))
          (scs (map (lambda (a) (round (/ a alt))) sca))
-         (lt (ekm:language-table name))
+         (lt (ekm:language-table ekm:language-name))
          (sc (ekm:scale-names-table lt))
          (tab (if sc
             ;; new table
@@ -183,15 +191,13 @@ ekmSystem = "72-sims"
          (brk (ekm:sort-break sort))
          (tab (sort-list! tab (lambda (x y) (< (key x) (key y)))))
          (lbrk (brk (car tab))))
-    (cons*
-      name
-      (append-map! (lambda (e)
-        (if (eqv? lbrk (brk e))
-          (list e)
-          (begin
-            (set! lbrk (brk e))
-            (list #t e))))
-        tab))))
+    (append-map! (lambda (e)
+      (if (eqv? lbrk (brk e))
+        (list e)
+        (begin
+          (set! lbrk (brk e))
+          (list #t e))))
+      tab)))
 
 #(define-markup-command (ekm-column layout props mk)
   (markup?)
@@ -209,15 +215,6 @@ ekmSystem = "72-sims"
       props)
     text))
 
-#(define-markup-command (ekm-table-caption layout props lang)
-  (string?)
-  #:properties ((font-size))
-  (interpret-markup layout props
-    (markup #:fontsize (- font-size) #:column (
-      #:line ("Notation style:" #:ekm-code ekm:notation-name)
-      #:vspace 0.2
-      #:line ("Language:" #:ekm-code lang)))))
-
 #(define-markup-command (ekm-alter-and-names layout props alter names)
   (rational? pair?)
   (interpret-markup layout props
@@ -228,79 +225,71 @@ ekmSystem = "72-sims"
 
 
 ekmNoteTable =
-#(define-music-function (sort enharmonic lang)
-  (symbol? boolean? string?)
-  (let ((tab (ekm:note-table sort enharmonic lang)))
-    (make-music 'SequentialMusic 'elements (cons*
-      (make-music 'EventChord 'elements (list
-        (make-music 'TextScriptEvent
-          'direction 1
-          'text (make-ekm-table-caption-markup (car tab)))))
-      (map (lambda (e)
-        (if (boolean? e)
-          (make-music 'LineBreakEvent
-            'break-permission 'force)
-          (make-music 'NoteEvent
-            'pitch (ly:make-pitch 0 (third e) (fifth e))
-            'duration (ly:make-duration 2)
-            'articulations (list
-              (make-music 'TextScriptEvent
-                'direction -1
-                'text (make-ekm-alter-and-names-markup (fourth e) (list-tail e 5)))))))
-        (cdr tab))))))
-
+#(define-music-function (sort enharmonic)
+  (symbol? boolean?)
+  (make-music 'SequentialMusic 'elements
+    (map (lambda (e)
+      (if (boolean? e)
+        (make-music 'LineBreakEvent
+          'break-permission 'force)
+        (make-music 'NoteEvent
+          'pitch (ly:make-pitch 0 (third e) (fifth e))
+          'duration (ly:make-duration 2)
+          'articulations (list
+            (make-music 'TextScriptEvent
+              'direction -1
+              'text (make-ekm-alter-and-names-markup (fourth e) (list-tail e 5)))))))
+      (ekm:note-table sort enharmonic))))
 
 #(define-markup-list-command
-  (ekm-notename-table layout props sort enharmonic lang)
-  (symbol? boolean? string?)
+  (ekm-notename-table layout props sort enharmonic)
+  (symbol? boolean?)
   #:properties ((baseline-skip))
-  (let ((tab (ekm:note-table sort enharmonic lang)))
-    (cons*
-      (interpret-markup layout props (markup
-        #:pad-to-box '(0 . 0) `(,(- (* 0.5 baseline-skip)) . 0)
-        #:line (
-          " "
-          #:ekm-column "Scale"
-          #:ekm-column "Step"
-          #:ekm-column "Alter"
-          #:hspace 5
-          #:ekm-code (car tab))))
-      (space-lines baseline-skip
-        (map (lambda (e)
-          (interpret-markup layout props
-            (if (boolean? e)
+  (cons*
+    (interpret-markup layout props (markup
+      #:pad-to-box '(0 . 0) `(,(- (* 0.5 baseline-skip)) . 0)
+      #:line (
+        " "
+        #:ekm-column "Scale"
+        #:ekm-column "Step"
+        #:ekm-column "Alter"
+        #:hspace 5
+        #:ekm-code ekm:language-name)))
+    (space-lines baseline-skip
+      (map (lambda (e)
+        (interpret-markup layout props
+          (if (boolean? e)
+            " "
+            (markup #:line (
               " "
-              (markup #:line (
-                " "
-                #:ekm-column (format #f "~d" (third e))
-                #:ekm-column (format #f "~d" (+ (first e) (second e)))
-                #:ekm-column #:ekmelic-fraction-small (fourth e)
-                #:hspace 5
-                #:ekm-code (string-join
-                  (map (lambda (n) (format #f "~9a" n)) (list-tail e 5))
-                  " "))))))
-          (cdr tab))))))
-
+              #:ekm-column (format #f "~d" (third e))
+              #:ekm-column (format #f "~d" (+ (first e) (second e)))
+              #:ekm-column #:ekmelic-fraction-small (fourth e)
+              #:hspace 5
+              #:ekm-code (string-join
+                (map (lambda (n) (format #f "~9a" n)) (list-tail e 5))
+                " "))))))
+        (ekm:note-table sort enharmonic)))))
 
 #(define-markup-list-command
   (ekm-accidental-table layout props sort enharmonic)
   (symbol? boolean?)
   #:properties ((baseline-skip))
-  (let* ((key (ekm:sort-key sort))
-         (tab (filter-map (lambda (e)
-              (and
-                (not (null? (cdr e)))
-                (ekm:select enharmonic (car e))
-                (let ((alt (ekm:code->correct-alter (car e))))
-                  (cons*
-                    0
-                    (ekm:alter->step alt)
-                    alt
-                    (ekm:code->alter (car e))
-                    (if (char? (second e))
-                      (list (char->integer (second e))) ; user defined
-                      (cdr e))))))
-              (or (assq-ref ekmNotations (string->symbol ekm:notation-name)) '()))))
+  (let ((key (ekm:sort-key sort))
+        (tab (filter-map (lambda (e)
+             (and
+               (not (null? (cdr e)))
+               (ekm:select enharmonic (car e))
+               (let ((alt (ekm:code->correct-alter (car e))))
+                 (cons*
+                   0
+                   (ekm:alter->step alt)
+                   alt
+                   (ekm:code->alter (car e))
+                   (if (char? (second e))
+                     (list (char->integer (second e))) ; user defined
+                     (cdr e))))))
+             (or (assq-ref ekmNotations (string->symbol ekm:notation-name)) '()))))
     (cons*
       (interpret-markup layout props (markup
         #:pad-to-box '(0 . 0) `(,(- (* 0.5 baseline-skip)) . 0)
@@ -323,11 +312,12 @@ ekmNoteTable =
                 " ")))))
           (sort-list! tab (lambda (x y) (< (key x) (key y)))))))))
 
-
 ekmTableOutputSuffix =
 #(define-void-function () ()
   (set! (paper-variable #f 'output-suffix)
-    (string-append ekm:system "-" ekm:notation-name)))
+    (string-join
+      (list ekm:tuning ekm:notation-name ekm:language-name)
+      "-")))
 
 
 
@@ -357,8 +347,10 @@ ekmTableOutputSuffix =
 \markup { \column {
   \line {
     Notes
-    of tuning #ekm:system \concat { ( \ekm-code #ekm:file ) }
+    of tuning #ekm:tuning \concat { ( \ekm-code #ekm:file ) }
   }
+  \line { "Notation style:" \ekm-code #ekm:notation-name }
+  \line { "Language:" \ekm-code #ekm:language-name }
   \vspace #1
 }}
 
@@ -376,7 +368,7 @@ ekmTableOutputSuffix =
 
     \accidentalStyle dodecaphonic
 
-    \ekmNoteTable #'ascending-absolute ##t ""
+    \ekmNoteTable #'ascending-absolute ##t
   }
 
   \layout { }
@@ -389,7 +381,7 @@ ekmTableOutputSuffix =
 \markup { \column {
   \line {
     Note names
-    of tuning #ekm:system \concat { ( \ekm-code #ekm:file ) }
+    of tuning #ekm:tuning \concat { ( \ekm-code #ekm:file ) }
   }
   \vspace #1
 }}
@@ -398,7 +390,7 @@ ekmTableOutputSuffix =
   \override #'(baseline-skip . 2.6)
   \override #'(style . slash)
 
-  \ekm-notename-table #'ascending-absolute ##t ""
+  \ekm-notename-table #'ascending-absolute ##t
 }
 
 \pageBreak
@@ -408,7 +400,7 @@ ekmTableOutputSuffix =
 \markup { \column {
   \line {
     Accidentals
-    of tuning #ekm:system \concat { ( \ekm-code #ekm:file ) }
+    of tuning #ekm:tuning \concat { ( \ekm-code #ekm:file ) }
   }
   \vspace #1
 }}
@@ -421,4 +413,3 @@ ekmTableOutputSuffix =
 }
 
 \pageBreak
-
