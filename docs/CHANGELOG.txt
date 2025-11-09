@@ -282,6 +282,12 @@ Version 3.13 (20 August 2023)
 2025-07-31:
 - ekmel.ily: Added Richter Herf / Maedel kink arrow notation "rhmk".
 
+2025-08-27:
+- ekmel-12.ily, ekmel-19.ily, ekmel-24.ily: Add language "svenska_ny".
+
 2025-10-07:
 - ekmel-main.ily: Rename to "\ekmStyle" and "\ekmUserStyle".
   Add option "ekmstyle".
+
+2025-11-09:
+- Add file "docs/table.ly" to create lookup tables.
