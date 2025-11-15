@@ -10,4 +10,4 @@ Each style describes a set of symbols for the alterations up to the five-quarter
 Furthermore, Ekmelily defines own note names based on the names for
 semi- and quarter-tones given in LilyPond.
 
-Ekmelily requires LilyPond version 2.19.22 or higher.
+Ekmelily requires LilyPond version 2.24 or higher.
