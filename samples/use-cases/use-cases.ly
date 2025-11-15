@@ -5,27 +5,9 @@
 
 \version "2.24.0"
 
-% ekmFont = "#"
-
-% \include "../../../Ekmelos/ly/ekmelos-paths.ily"
-\include "ekmel.ily"
-\language "deutsch"
-
-% \ekmelicStyle arrow
-% \ekmelicStyle bos
-% \ekmelicStyle fern
-% \ekmelicStyle gostc
-% \ekmelicStyle gostz
-% \ekmelicStyle haba
-% \ekmelicStyle hesse
-% \ekmelicStyle msag
-% \ekmelicStyle rhm
-% \ekmelicStyle sag
-% \ekmelicStyle sims
-% \ekmelicStyle wys
-
-% \ekmelicStyle alteration
-% \ekmelicStyle step
+ekmUse = "72-sims"
+% ekmUse = "72-sag"
+\include "cosmufl.ily"
 
 \ekmelicOutputSuffix
 \pointAndClickOff
@@ -55,15 +37,19 @@
 
 
 \markup \column {
-  "Samples for Ekmelily demonstrating accidental symbols in various use cases."
-  \line { "Include file:" \typewriter { ekmel.ily }}
-  \line { "Notation style:" \typewriter { \ekmelic-style-name }}
-  \vspace #2
+  \line {
+    Samples for Ekmelily demonstrating accidental symbols in various use cases.
+  }
+  \line {
+    Include file: \typewriter { ekmel.ily } ,
+    Notation style: \typewriter { \ekmelic-style-name }
+  }
+  \vspace #1
 }
 
 %%----------------------------------------------------------------------
 
-\markup "Normal, cautionary, and suggested accidentals:"
+\markup \line { Normal, cautionary, and suggested accidentals }
 \score {
   \new Staff \relative c'' {
     cir4 cil cih cis
@@ -76,7 +62,7 @@
 
 %%----------------------------------------------------------------------
 
-\markup "Key signatures:"
+\markup \line { Key signatures }
 \score {
   \new Staff \relative c'' {
     \key f #'((0 . 0)
@@ -84,9 +70,9 @@
               (2 . -1/4)
               (3 . 0)
               (4 . 0)
-              (5 . -1/4)
+              (5 . 0)
               (6 . -1/4))
-    ah4 ceh eh c
+    aeh4 ceh eeh c
 
     \key c #'((0 . 1/4)
               (1 . 0)
@@ -116,30 +102,33 @@
 
 %%----------------------------------------------------------------------
 
-\markup "Grace note accidentals:"
+\markup \line { Grace note accidentals }
 \score {
   \new Staff \relative c'' {
-    \grace her8 a4
-    \slashedGrace hil16 c4
-    \appoggiatura eh8 d4
-    \acciaccatura { hesel16 hir } c4
+    \grace ber8 a4
+    \slashedGrace bil16 c4
+    \appoggiatura eeh8 d4
+    \acciaccatura { besel16 bir } c4
     \grace { cel16 dih e fir } e1
   }
 }
 
 %%----------------------------------------------------------------------
 
-\markup "Trill pitch accidentals:"
+\markup \line { Trill pitch accidentals, measure 3 uses \typewriter "cosmufl.ily" }
 \score {
-  \new Staff \relative c'' {
+  \new Staff
+  \relative c'' {
     \pitchedTrill d1 \startTrillSpan eil
-    d1 \startTrillSpan ^ \markup \ekmelic-char #1/6
+    d1 \startTrillSpan ^ \markup \ekmelic-char #-1/4
+    \ekmSmuflOn #'trill
+    d1 \ekmStartTrillSpanAccidental #0 #-1/4
   }
 }
 
 %%----------------------------------------------------------------------
 
-\markup "Ambitus accidentals:"
+\markup \line { Ambitus accidentals }
 \score {
   \new Staff \relative c'' {
     c4 eisel d a cesir,1
@@ -154,24 +143,53 @@
 
 %%----------------------------------------------------------------------
 
-\markup "Accidentals in cue voices:"
+\markup \line { Accidentals in chord names }
+\score {
+  <<
+    \new ChordNames {
+      \chordmode {
+        ces1
+        cis
+        cih
+        c:aug7
+        <c' e' ges' b'>
+      }
+    }
+    \new Staff {
+      \accidentalStyle default
+      \chordmode {
+        ces1
+        cis
+        cih
+        c:aug7
+        <c' e' ges' b'>
+      }
+    }
+  >>
+}
+
+%%----------------------------------------------------------------------
+
+\markup \line { Accidentals in cue voices }
 \score {
   \new Staff \relative c'' {
     <<
       {
         \override MultiMeasureRest.staff-position = #-6
-        R1*4
+        R1*5
       }
       \new CueVoice \relative c'' {
         cir4 cil cih c
 
-        \grace her8 a4
-        \slashedGrace hil16 c4
-        \appoggiatura eh8 d4
-        \acciaccatura { hesel16 hir } c4
+        \grace ber8 a4
+        \slashedGrace bil16 c4
+        \appoggiatura eeh8 d4
+        \acciaccatura { besel16 bir } c4
 
         \pitchedTrill d1 \startTrillSpan eil
-        d1 \startTrillSpan ^ \markup \ekmelic-char #1/6
+        d1 \startTrillSpan ^ \markup \ekmelic-char #-1/4
+        \ekmSmuflOn #'trill
+        d1 \ekmStartTrillSpanAccidental #0 #-1/4
       }
     >>
     cir1
@@ -180,7 +198,7 @@
 
 %%----------------------------------------------------------------------
 
-\markup "Accidentals in ossia staves (here with a 3 steps smaller font size):"
+\markup \line { Accidentals in ossia staves (with a 3 steps smaller font size) }
 \score {
   \new Staff = "main"
   \relative c'' {
@@ -197,16 +215,18 @@
       \relative c'' {
         cir4 cil cih c
 
-        \grace her8 a4
-        \slashedGrace hil16 c4
-        \appoggiatura eh8 d4
-        \acciaccatura { hesel16 hir } c4
+        \grace ber8 a4
+        \slashedGrace bil16 c4
+        \appoggiatura eeh8 d4
+        \acciaccatura { besel16 bir } c4
 
         \pitchedTrill d1 \startTrillSpan eil
-        d1 \startTrillSpan ^ \markup \ekmelic-char #1/6
+        d1 \startTrillSpan ^ \markup \ekmelic-char #-1/4
+        \ekmSmuflOn #'trill
+        d1 \ekmStartTrillSpanAccidental #0 #-1/4
       }
       \relative c'' {
-        R1*4
+        R1*5
       }
     >>
     cir1
