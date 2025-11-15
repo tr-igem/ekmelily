@@ -17,7 +17,7 @@
 %%
 %%
 
-\version "2.19.22"
+\version "2.24.0"
 
 
 %% Enharmonical equivalence
@@ -559,7 +559,7 @@ ekmelicUserStyle = #ekmUserStyle
         (interpret-markup layout props
           (make-ekm-char-markup tal)))
       (else
-        (ly:stencil-translate-axis sil tal Y)))))
+        (ly:stencil-translate-axis sil (* tal (magstep font-size)) Y)))))
 
 
 %% NoteNames context
@@ -623,6 +623,21 @@ ekmelicUserStyle = #ekmUserStyle
               (make-sub-markup (number->string (+ 3 o)))
               (make-string (abs o) (if (> o 0) #\' #\,))))
           empty-markup))))))
+
+
+%% ChordNames context
+
+#(define (ekm:chord-acc-set! text)
+  (if (and (eq? raise-markup (car text))
+           (pair? (third text))
+           (eq? accidental-markup (car (third text))))
+    (list-set! text 1 0)
+  (if (eq? accidental-markup (car text))
+    (list-set! text 0 ekmelic-char-text-markup)))
+  (for-each (lambda (e)
+    (if (pair? e) (ekm:chord-acc-set! e)))
+    text))
+
 
 
 %% Initializations
@@ -694,6 +709,10 @@ ekmelicUserStyle = #ekmUserStyle
     \override TrillPitchAccidental.stencil = #(ekm:acc #f)
     \override AmbitusAccidental.stencil = #(ekm:acc #f)
     \override AccidentalSuggestion.stencil = #(ekm:acc #f)
+    \override ChordName.stencil = #(lambda (grob)
+      (ekm:chord-acc-set! (ly:grob-property grob 'text))
+      (ly:text-interface::print grob))
+
     noteNameFunction = #ekm:note-name-markup
   }
 }
