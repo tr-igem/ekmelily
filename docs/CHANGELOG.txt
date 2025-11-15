@@ -291,3 +291,9 @@ Version 3.13 (20 August 2023)
 
 2025-11-09:
 - Add file "docs/table.ly" to create lookup tables.
+
+2025-11-14:
+- ekmel-main.ily: Add "ekm:chord-acc-set!" to draw accidentals in
+  chord names (issue #14).
+- Change minimum LP version for Ekmelily to 2.24.
+- ekmel-main.ily: "\ekmelic-char-text": Fix Y alignment relative to font-size.
