@@ -534,16 +534,33 @@ ekmelicUserStyle = #ekmUserStyle
 
 #(define ekm:textalign '())
 
+#(define ekm:chord-acc '(
+  ("\uE260" . #xED60)
+  ("\uE261" . #xED61)
+  ("\uE262" . #xED62)
+  ("\uE263" . #xED63)
+  ("\uE264" . #xED64)
+  ("\uE265" . #xED65)
+  ("\uE266" . #xED66)))
+
 #(define-markup-command (ekmelic-char-text layout props genalt)
   (ekm:genalter?)
-  #:properties ((font-size 0))
+  #:properties ((font-size 0)
+                (style '()))
   (let* ((alt (ekm:genalter->alter genalt))
          (acc (assv-ref ekm:notation alt))
-         (tal (if acc (or (assoc-ref ekm:textalign (last acc)) DOWN) DOWN))
+         (acc (or (and (eq? 'chord style)
+                       acc (null? (cdr acc))
+                       (assoc-ref ekm:chord-acc (car acc)))
+                  acc))
+         (tal (if (pair? acc) (or (assoc-ref ekm:textalign (last acc)) DOWN) DOWN))
          (sil (interpret-markup layout props
-                (make-ekmelic-acc-markup alt #f #f))))
+                (if (integer? acc)
+                  (make-fontsize-markup -2
+                    (make-ekm-acc-markup (ekm:elem->markup acc) #f))
+                  (make-ekmelic-acc-markup alt #f #f)))))
     (cond
-      ((= DOWN tal)
+      ((or (= DOWN tal) (eq? 'chord style))
         (ly:stencil-aligned-to sil Y DOWN))
       ((= CENTER tal)
         (let ((ctr (interpret-markup layout
@@ -628,16 +645,18 @@ ekmelicUserStyle = #ekmUserStyle
 %% ChordNames context
 
 #(define (ekm:chord-acc-set! text)
-  (if (and (eq? raise-markup (car text))
-           (pair? (third text))
-           (eq? accidental-markup (car (third text))))
-    (list-set! text 1 0)
-  (if (eq? accidental-markup (car text))
-    (list-set! text 0 ekmelic-char-text-markup)))
-  (for-each (lambda (e)
-    (if (pair? e) (ekm:chord-acc-set! e)))
-    text))
-
+  (if (list? text)
+    (begin
+      (if (and (eq? raise-markup (car text))
+               (pair? (third text))
+               (eq? accidental-markup (car (third text))))
+        (list-set! text 1 0)
+      (if (eq? accidental-markup (car text))
+        (begin
+          (list-set! text 0 override-markup)
+          (list-cdr-set! text 0
+            `((style . chord) (,ekmelic-char-text-markup ,(second text)))))))
+      (for-each ekm:chord-acc-set! text))))
 
 
 %% Initializations
