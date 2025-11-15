@@ -297,3 +297,8 @@ Version 3.13 (20 August 2023)
   chord names (issue #14).
 - Change minimum LP version for Ekmelily to 2.24.
 - ekmel-main.ily: "\ekmelic-char-text": Fix Y alignment relative to font-size.
+
+2025-11-15:
+- ekmel-main.ily: Add support for chord symbol standard accidentals in
+  "ekm:chord-acc-set!" and "\ekmelic-char-text".
+  Add table "ekm:chord-acc".
