@@ -646,17 +646,15 @@ ekmelicUserStyle = #ekmUserStyle
 
 #(define (ekm:chord-acc-set! text)
   (if (list? text)
-    (begin
-      (if (and (eq? raise-markup (car text))
-               (pair? (third text))
-               (eq? accidental-markup (car (third text))))
-        (list-set! text 1 0)
-      (if (eq? accidental-markup (car text))
-        (begin
-          (list-set! text 0 override-markup)
-          (list-cdr-set! text 0
-            `((style . chord) (,ekmelic-char-text-markup ,(second text)))))))
-      (for-each ekm:chord-acc-set! text))))
+    (cond
+      ((and (eq? raise-markup (car text))
+            (pair? (third text))
+            (eq? accidental-markup (car (third text))))
+        (set-car! text override-markup)
+        (set-cdr! text
+          `((style . chord) (,ekmelic-char-text-markup ,(second (third text))))))
+      (else
+        (for-each ekm:chord-acc-set! text)))))
 
 
 %% Initializations
