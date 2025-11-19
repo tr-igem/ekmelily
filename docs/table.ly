@@ -20,11 +20,12 @@
 ekmFont = "Bravura"
 %%  Font for the accidentals. Default is "Ekmelos".
 
-ekmUse = "72-sims-english"
-%%  Tuning, notation style, and language, separated by `-`.
-%%  Each part is optional. Default tuning is 24.
-%%  The value can be a string, symbol, or number.
-%%  The corresponding Ekmelily file is included automatically.
+ekmUse = #'(72 sims english)
+%%  Sequence of tuning, notation style, and language (each is optional),
+%%  either as a string separated by `-` or space,
+%%  or as a list of symbols or strings. Tuning can be a number or string.
+%%  Default tuning is 24.
+%%  Includes the corresponding Ekmelily file.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -74,42 +75,47 @@ ekmUse = "72-sims-english"
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\version "2.19.22"
+\version "2.24.0"
 
 #(define ekm:tuning #f)
 #(define ekm:file #f)
 #(define ekm:style #f)
 #(define ekm:language-name #f)
 
-#(let* ((s (or (ly:get-option 'ekmuse)
-               (and (defined? 'ekmUse) ekmUse)
-               (and (defined? 'ekmSystem) ekmSystem)
-               ""))
-        (s (if (symbol? s) (symbol->string s)
-           (if (number? s) (number->string s 10) s)))
-        (s (string-split s #\-))
-        (t (if (string-null? (car s)) "24" (car s)))
-        (f (if (string=? "72" t)
+#(let* ((ls (or (ly:get-option 'ekmuse)
+                (and (defined? 'ekmUse) ekmUse)
+                (and (defined? 'ekmSystem) ekmSystem)
+                ""))
+        (ls (if (string? ls) (string-split ls (string->char-set " -"))
+            (if (list? ls) ls (list ls))))
+        (len (min (length ls) 3))
+        (ref (lambda (i)
+          (let ((v (if (> len i) (list-ref ls i) "")))
+            (if (number? v) (number->string v 10)
+            (if (symbol? v) (symbol->string v)
+            (if (string-null? v) #f v))))))
+        (t (or (ref 0) "24"))
+        (f (if (equal? "72" t)
             "ekmel.ily"
             (string-append "ekmel-" t ".ily"))))
+
   (set! ekm:tuning t)
   (set! ekm:file f)
-  (set! ekm:style
-    (if (or (null? (cdr s)) (string-null? (second s))) #f (second s)))
-  (set! ekm:language-name
-    (if (or (> 3 (length s)) (string-null? (third s))) #f (third s)))
+  (set! ekm:style (ref 1))
+  (set! ekm:language-name (ref 2))
+
   (if (ly:find-file f)
     (ly:parser-include-string (format #f "\\include \"~a\"\n" f))
     (ly:error "Tuning '~a' does not exist" t)))
 
-#(if (and ekm:style
-          (assq (string->symbol ekm:style) ekmNotations))
-  (ekm:set-notation ekm:style))
-
-#(if (and ekm:language-name
-          (assq (string->symbol ekm:language-name) ekmLanguages))
-  (ekm:set-language ekm:language-name)
-  (set! ekm:language-name (symbol->string (caar ekmLanguages))))
+#(begin
+  (if (and ekm:style
+           (assq (string->symbol ekm:style) ekmNotations))
+    (ekm:set-notation ekm:style))
+  (if (and ekm:language-name
+           (assq (string->symbol ekm:language-name) ekmLanguages))
+    (ekm:set-language ekm:language-name)
+    (set! ekm:language-name (symbol->string (caar ekmLanguages)))))
 
 
 #(define (ekm:select enh ac)
