@@ -368,3 +368,29 @@
   (default ,(markup #:numeric-accidental)))
 
 %-----------------------------------------------------------------------
+
+
+
+
+%%----------------------------------------------------------------------
+%% Other examples
+%%----------------------------------------------------------------------
+
+%% Style with alteration names
+%% Demonstrates the use of alteration names to define a notation style
+%% with different enharmonically equivalent accidentals.
+%% Note that the previous style must already define different
+%% accidentals, e.g. "arrow" in 24-EDO.
+%% The language of the alteration names is "nederlands".
+
+\include "ekmel-24.ily"
+
+\ekmStyle arrow
+
+\ekmUserStyle myNotation #'(
+  (ih #xEE60)
+  (eh #xEE61)
+  (iseh #xE47C #xE481)
+  (esih #xE47B #xE260))
+
+%-----------------------------------------------------------------------
