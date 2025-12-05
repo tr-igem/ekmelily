@@ -370,10 +370,12 @@ ekmUserStyle =
     (if (string-null? name) (string-append ekm:notation-name "-user") name))
   (for-each (lambda (u)
     (if (and (pair? u) (not (null? (cdr u))))
-      (let* ((old (assv-ref ekm:notation (car u)))
+      (let* ((alt (ekm:genalter->alter (car u)))
+             (noalt (= EKM-ALTER-ENHEQ alt))
+             (old (assv-ref ekm:notation (if noalt (car u) alt)))
              (new (ekm:elems->markup (cdr u))))
         (if old
-          (if (symbol? (car u))
+          (if noalt
             (set! ekm:notation (assv-set! ekm:notation (car u) new))
             (for-each (lambda (e)
               (set-cdr! e (ekm:list-replace! old new (cdr e))))
