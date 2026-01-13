@@ -5,8 +5,8 @@
 
 \version "2.24.0"
 
-ekmUse = "72-sims"
-% ekmUse = "72-sag"
+ekmUse = "72 sims +"
+% ekmUse = "72 sag +"
 \include "cosmufl.ily"
 
 \ekmelicOutputSuffix
@@ -41,7 +41,7 @@ ekmUse = "72-sims"
     Samples for Ekmelily demonstrating accidental symbols in various use cases.
   }
   \line {
-    Include file: \typewriter { ekmel.ily } ,
+    Tuning: \typewriter { \ekm-tuning } ,
     Notation style: \typewriter { \ekmelic-style-name }
   }
   \vspace #1
