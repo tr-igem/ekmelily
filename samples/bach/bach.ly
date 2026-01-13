@@ -13,6 +13,7 @@
 \include "ekmel-24.ily"
 
 % \ekmStyle stc
+% \ekmStyle stz
 % \ekmStyle go
 % \ekmStyle stvt
 % \ekmStyle arrow
@@ -22,6 +23,7 @@
 % \ekmStyle persian
 % \ekmStyle four
 % \ekmStyle haba
+% \ekmStyle bl
 
 \ekmelicOutputSuffix
 \pointAndClickOff
@@ -40,7 +42,7 @@
 \markup \column {
   \line {
     Sample for
-    \with-url #"http://www.ekmelic-music.org/en/extra/ekmelily.htm"
+    \with-url #"https://github.com/tr-igem/ekmelily"
     \with-color #darkblue "Ekmelily"
   }
   \line {
