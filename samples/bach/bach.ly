@@ -12,16 +12,16 @@
 % ekmFont = "Bravura"
 \include "ekmel-24.ily"
 
-% \ekmelicStyle stc
-% \ekmelicStyle go
-% \ekmelicStyle stvt
-% \ekmelicStyle arrow
-% \ekmelicStyle sag
-% \ekmelicStyle msag
-% \ekmelicStyle arabic
-% \ekmelicStyle persian
-% \ekmelicStyle four
-% \ekmelicStyle haba
+% \ekmStyle stc
+% \ekmStyle go
+% \ekmStyle stvt
+% \ekmStyle arrow
+% \ekmStyle sag
+% \ekmStyle msag
+% \ekmStyle arabic
+% \ekmStyle persian
+% \ekmStyle four
+% \ekmStyle haba
 
 \ekmelicOutputSuffix
 \pointAndClickOff
