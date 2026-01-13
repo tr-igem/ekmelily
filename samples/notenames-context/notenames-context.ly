@@ -7,18 +7,19 @@
 
 \include "ekmel.ily"
 
-% \ekmelicStyle arrow
-% \ekmelicStyle rhm
-% \ekmelicStyle sims
-% \ekmelicStyle hesse
-% \ekmelicStyle sag
-% \ekmelicStyle msag
-% \ekmelicStyle wys
-% \ekmelicStyle gostz
-% \ekmelicStyle gostc
-% \ekmelicStyle bos
-% \ekmelicStyle fern
-% \ekmelicStyle haba
+% \ekmStyle arrow
+% \ekmStyle rhm
+% \ekmStyle rhmk
+% \ekmStyle sims
+% \ekmStyle hesse
+% \ekmStyle sag
+% \ekmStyle msag
+% \ekmStyle wys
+% \ekmStyle gostz
+% \ekmStyle gostc
+% \ekmStyle bos
+% \ekmStyle fern
+% \ekmStyle haba
 
 \ekmelicOutputSuffix
 \pointAndClickOff
@@ -52,7 +53,7 @@
 \markup \column {
   \line {
     Samples for
-    \with-url #"http://www.ekmelic-music.org/en/extra/ekmelily.htm"
+    \with-url #"https://github.com/tr-igem/ekmelily"
     \with-color #darkblue "Ekmelily"
     demonstrating the NoteNames context.
   }
