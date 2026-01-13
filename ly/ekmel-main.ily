@@ -1,5 +1,5 @@
 %% This file is part of Ekmelily - Notation of microtonal music with LilyPond.
-%% Copyright (C) 2013-2025  Thomas Richter <thomas-richter@aon.at>
+%% Copyright (C) 2013-2026  Thomas Richter <thomas-richter@aon.at>
 %%
 %% This program is free software: you can redistribute it and/or modify
 %% it under the terms of the GNU General Public License as published by
@@ -312,22 +312,39 @@ ekmScaleNames = #'#(
       (not (ly:grob-property grob 'restore-first))
       par)))
 
+#(define (ekm:stencil-kern lsil sil pos pad)
+  (let ((sil (ly:stencil-translate-axis sil pos Y)))
+   (if lsil
+    (let ((dist (ly:skyline-distance
+            (cdr (ly:skylines-for-stencil lsil Y))
+            (car (ly:skylines-for-stencil sil Y))
+            pad)))
+      (ly:stencil-add
+        lsil
+        (ly:stencil-translate-axis sil
+          (cond
+            ((or (inf? dist) (negative? dist))
+              pad)
+            ((< (- dist (interval-length (ly:stencil-extent lsil X))) pad)
+              (+ dist pad))
+            (else
+              dist))
+          X)))
+    sil)))
+
 #(define ((ekm:key cancel) grob)
   (let ((c0 (ly:grob-property grob 'c0-position))
-        (su (* 0.5 (ly:staff-symbol-staff-space grob))))
-    (fold (lambda (a sig)
-      (ly:grob-set-property! grob 'alteration (cdr a)) ;; for markup
-      (ly:stencil-stack
-        (ly:stencil-translate-axis
-          (grob-interpret-markup grob
-            (make-ekmelic-acc-markup (if cancel 0 (cdr a)) #f 'pad))
-          (* su (car (key-signature-interface::alteration-positions a c0 grob)))
-          Y)
-        X RIGHT
-        sig
-        (if cancel 0.3 0.14)))
-      '()
-      (ly:grob-property grob 'alteration-alist))))
+        (su (* 0.5 (ly:staff-symbol-staff-space grob)))
+        (pad (ly:grob-property grob 'padding 0.28)))
+    (fold-right (lambda (alt res)
+      (ly:grob-set-property! grob 'alteration (cdr alt)) ;; for markup
+      (ekm:stencil-kern
+        res
+        (grob-interpret-markup grob
+          (make-ekmelic-acc-markup (if cancel 0 (cdr alt)) #f 'pad))
+        (* su (car (key-signature-interface::alteration-positions alt c0 grob)))
+        pad))
+      #f (ly:grob-property grob 'alteration-alist))))
 
 
 %% Aux procs for ekmUserStyle
