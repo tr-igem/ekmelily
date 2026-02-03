@@ -309,3 +309,9 @@ Version 3.13 (20 August 2023)
 2026-01-13:
 - ekmel-main.ily: Add general padding (kerning) of key signatures
   in "ekm:key" and add "ekm:stencil-kern" (issue #10).
+
+2026-02-03:
+- ekmel-main.ily: Add support for alteration names (ekm:genalter?)
+  in "\ekmelic-fraction" and "\ekmelic-fraction-small".
+- ekmel-main.ily: Add optional argument for real alteration (not with EKM-ALTER-ENHEQ)
+  in "ekm:code->alter" and "ekm:genalter->alter".
