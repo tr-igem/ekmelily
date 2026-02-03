@@ -45,9 +45,9 @@
 #(define (ekm:tuning? ac)
   (or (= 0 ac) (pair? (assv (logand ac EKM-ACODE-MASK) ekmTuning))))
 
-#(define (ekm:code->alter ac)
+#(define* (ekm:code->alter ac #:optional real)
   (let* ((a (if (= 0 ac) 0 (assv-ref ekmTuning (logand ac EKM-ACODE-MASK))))
-         (a (if (logtest ac EKM-ACODE-ENHEQ) (+ a EKM-ALTER-ENHEQ) a)))
+         (a (if (and (not real) (logtest ac EKM-ACODE-ENHEQ)) (+ a EKM-ALTER-ENHEQ) a)))
     (if (odd? ac) (- a) a)))
 
 #(define (ekm:alter->code alt)
@@ -159,14 +159,17 @@ ekmScaleNames = #'#(
 #(define (ekm:genalter? x)
   (or (rational? x) (symbol? x)))
 
-#(define (ekm:genalter->alter genalt)
+#(define* (ekm:genalter->alter genalt #:optional real)
   (if (rational? genalt)
-    genalt
+    (if real
+      (let ((alt (ekm:pure-alter genalt)))
+        (if (negative? genalt) (- alt) alt))
+      genalt)
     (let mem ((l (ekm:alter-names-table ekm:language)))
       (if (null? l)
         EKM-ALTER-ENHEQ
         (if (memq genalt (cdar l))
-          (ekm:code->alter (caar l))
+          (ekm:code->alter (caar l) real)
           (mem (cdr l)))))))
 
 
@@ -478,26 +481,28 @@ ekmelicUserStyle = #ekmUserStyle
       arg))
     arg))
 
-#(define-markup-command (ekmelic-fraction layout props alt)
-  (rational?)
+#(define-markup-command (ekmelic-fraction layout props genalt)
+  (ekm:genalter?)
   #:properties ((style '())
                 (fraction-size 0))
-  (let* ((a (ekm:pure-alter alt))
-         (n (number->string (numerator a))))
-    (interpret-markup layout props
-      (ekm:with-sign alt
-        (if (integer? a)
-          n
-          (let ((m (make-ekm-fraction-markup n (number->string (denominator a)))))
-            (if (eq? 'line style)
-              m
-              (make-fontsize-markup fraction-size m))))))))
+  (let* ((alt (ekm:genalter->alter genalt #t))
+         (n (number->string (numerator (abs alt)))))
+    (if (= EKM-ALTER-ENHEQ alt)
+      empty-stencil
+      (interpret-markup layout props
+        (ekm:with-sign alt
+          (if (integer? alt)
+            n
+            (let ((m (make-ekm-fraction-markup n (number->string (denominator alt)))))
+              (if (eq? 'line style)
+                m
+                (make-fontsize-markup fraction-size m)))))))))
 
-#(define-markup-command (ekmelic-fraction-small layout props alt)
-  (rational?)
+#(define-markup-command (ekmelic-fraction-small layout props genalt)
+  (ekm:genalter?)
   (interpret-markup layout props
     (make-override-markup '(fraction-size . -4)
-      (make-ekmelic-fraction-markup alt))))
+      (make-ekmelic-fraction-markup genalt))))
 
 #(define-markup-command (ekm-num-acc layout props style)
   (symbol?)
