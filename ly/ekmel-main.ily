@@ -685,13 +685,18 @@ ekmelicUserStyle = #ekmUserStyle
 
 #(let* ((font (ly:get-option 'ekmfont))
         (font (if font (symbol->string font)
-              (if (defined? 'ekmFont) ekmFont
-              (if (defined? 'ekmelicFont) ekmelicFont ""))))
-        (path (string-suffix? "#" font))
-        (font (if path (string-drop-right font 1) font))
-        (font (if (string-null? font) "Ekmelos" font)))
+              (if (defined? 'ekmFont) ekmFont "")))
+        (paths (string-suffix? "#" font))
+        (font (if paths (string-drop-right font 1) font))
+        (font (if (string-null? font) "Ekmelos" font))
+        (fname (string-downcase font))
+        (pname (string-append fname "-paths.ily")))
   (set! ekm:font-name font)
-  (set! ekm:draw-paths (and path (defined? 'ekm-path-stencil))))
+  (set! ekm:draw-paths paths)
+  (if (and paths (not (defined? 'ekm-path-stencil)) (ly:find-file pname))
+    (ly:parser-include-string (format #f "\\include \"~a\"\n" pname))))
+
+#(set! ekm:draw-paths (and ekm:draw-paths (defined? 'ekm-path-stencil)))
 
 #(let ((s (assv-ref ekmTuning -1)))
   (ly:set-default-scale
