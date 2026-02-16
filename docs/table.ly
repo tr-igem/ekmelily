@@ -1,7 +1,7 @@
 %%
 %%  table.ly  -  Create lookup tables for Ekmelily
 %%
-%%  Written 2025 by Thomas Richter <thomas-richter@aon.at>
+%%  Written 2025-2026 by Thomas Richter <thomas-richter@aon.at>
 %%  This program is free software.
 %%  Use, redistribute, and modify it as you wish.
 %%
@@ -13,7 +13,6 @@
 %%  which makes use of the commands described below.
 %%  Modify it as you wish.
 %%
-%%
 %%  Set the following variables as desired:
 %%
 
@@ -22,56 +21,55 @@ ekmFont = "Bravura"
 
 ekmUse = #'(72 sims english)
 %%  Sequence of tuning, notation style, and language (each is optional),
-%%  either as a string separated by `-` or space,
-%%  or as a list of symbols or strings. Tuning can be a number or string.
-%%  Default tuning is 24.
-%%  Includes the corresponding Ekmelily file.
+%%  either as a string separated by whitespace,
+%%  or as a list of symbols or strings.
+%%  Tuning can also be a number. The default is 24.
+%%  It includes the corresponding Ekmelily file.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %%
 %%  Commands:
 %%
-%%  - \ekmNoteTable SORT ENHARMONIC
+%%  \ekmNoteTable SORT ENHARMONIC
 %%    Create a music sequence of all notes within the one-line octave
 %%    with the accidentals of the selected notation style,
 %%    and with the alterations and the note names of the selected language
 %%    below the notes.
 %%
-%%  - \ekm-notename-table SORT ENHARMONIC
+%%  \ekm-notename-table SORT ENHARMONIC
 %%    Draw a table with the note names of the selected language
 %%    as a markup list.
 %%
-%%  - \ekm-accidental-table SORT ENHARMONIC
+%%  \ekm-accidental-table SORT ENHARMONIC
 %%    Draw a table with the accidentals of the selected notation style
 %%    as a markup list.
 %%
-%%  - \ekmTableOutputSuffix
+%%  \ekmTableOutputSuffix
 %%    Set the tuning, notation style, and language
 %%    as the output filename suffix.
 %%
 %%  Parameters:
 %%
-%%  * SORT (symbol):
+%%  - SORT (symbol):
 %%    'ascending-absolute
 %%    'ascending
 %%    'descending
 %%    'grouped-absolute
 %%    'grouped
 %%
-%%  * ENHARMONIC (boolean):
+%%  - ENHARMONIC (boolean):
 %%    #t includes enharmonically equivalent tone steps.
 %%
 %%  Used markup properties:
 %%
-%%  * baseline-skip
+%%  - baseline-skip
 %%
-%%  * style ('()): Style of the alteration numbers; see `\ekm-fraction`.
-%%    'slash
-%%    'line
+%%  - style: Style of alteration values:
+%%    '() draws a horizontal bar (default).
+%%    'slash draws a diagonal bar.
+%%    'line draws a solidus with horizontally stacked numbers.
 %%
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -86,7 +84,7 @@ ekmUse = #'(72 sims english)
                 (and (defined? 'ekmUse) ekmUse)
                 (and (defined? 'ekmSystem) ekmSystem)
                 ""))
-        (ls (if (string? ls) (string-split ls (string->char-set " -"))
+        (ls (if (string? ls) (string-split ls char-set:whitespace)
             (if (list? ls) ls (list ls))))
         (len (min (length ls) 3))
         (ref (lambda (i)
@@ -329,13 +327,16 @@ ekmTableOutputSuffix =
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %%
 %%  Sample to create lookup tables
-%%  Modify it as you wish.
 %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \ekmTableOutputSuffix
+
+
+%%  Draws a score of all notes within the one-line octave
 
 \paper {
   indent = 0
@@ -382,7 +383,8 @@ ekmTableOutputSuffix =
 
 \pageBreak
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%  Draws a note names table
 
 \markup { \column {
   \line {
@@ -401,7 +403,8 @@ ekmTableOutputSuffix =
 
 \pageBreak
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%  Draws an accidental table
 
 \markup { \column {
   \line {
