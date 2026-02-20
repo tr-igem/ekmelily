@@ -265,13 +265,14 @@ ekmScaleNames = #'#(
 
 #(define-markup-command (ekm-acc layout props mk par)
   (ekm:markup-or-path? boolean-or-symbol?)
-  #:properties ((font-size 0))
+  #:properties ((font-size 0)
+                (font-name ekm:font-name))
   (if (string? mk)
     (let ((pad (and (eq? 'pad par) (assoc-ref ekm:padding mk)))
           (sil (interpret-markup layout
                  (cons
-                   `((font-size . ,(+ ekm:font-size font-size))
-                     (font-name . ,ekm:font-name))
+                  `((font-size . ,(+ ekm:font-size font-size))
+                    (font-name . ,font-name))
                    props)
                  mk)))
       (if pad (ekm:add-pad sil pad) sil))
@@ -570,6 +571,7 @@ ekmelicUserStyle = #ekmUserStyle
 #(define-markup-command (ekmelic-char-text layout props genalt)
   (ekm:genalter?)
   #:properties ((font-size 0)
+                (font-name ekm:font-name)
                 (style '()))
   (let* ((alt (ekm:genalter->alter genalt))
          (acc (assv-ref ekm:notation alt))
@@ -590,7 +592,7 @@ ekmelicUserStyle = #ekmUserStyle
         (let ((ctr (interpret-markup layout
                      (cons
                       `((font-size . ,(+ ekm:font-size font-size))
-                        (font-name . ,ekm:font-name))
+                        (font-name . ,font-name))
                        props)
                      (ekm:elem->markup
                        (if (defined? 'ekmTextCenter) ekmTextCenter #xEAA4)))))
