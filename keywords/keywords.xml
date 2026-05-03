@@ -1,0 +1,9 @@
+<!--
+Ekmelily keywords
+Include it in a UDL file (https://ivan-radic.github.io/udl-documentation/)
+for LilyPond (eg. "userDefineLangs/lilypond_lang.xml").
+
+Uses "Keywords5".
+Change this as you wish.
+-->
+<Keywords name="Keywords5">\ekm-fraction \ekmStyle \ekmUserStyle \ekmelic-char \ekmelic-char-text \ekmelic-elem \ekmelic-font-name \ekmelic-fraction \ekmelic-fraction-small \ekmelic-style-name \ekmelic-table \ekmelicOutputSuffix ekmFont</Keywords>
