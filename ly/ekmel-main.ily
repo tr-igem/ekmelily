@@ -574,10 +574,13 @@ ekmelicUserStyle = #ekmUserStyle
                 (font-name ekm:font-name)
                 (style '()))
   (let* ((alt (ekm:genalter->alter genalt))
+         (chord (or (eq? 'chord style) (eq? 'super style)))
          (acc (assv-ref ekm:notation alt))
-         (acc (or (and (eq? 'chord style)
+         (acc (or (and chord
                        acc (null? (cdr acc))
-                       (assoc-ref ekm:chord-acc (car acc)))
+                       (if (defined? 'ekm:assid)
+                        (ekm:assid 'chord (car acc) (ekm:mv (eq? 'super style)))
+                        (assoc-ref ekm:chord-acc (car acc))))
                   acc))
          (tal (if (pair? acc) (or (assoc-ref ekm:textalign (last acc)) DOWN) DOWN))
          (sil (interpret-markup layout props
@@ -586,7 +589,7 @@ ekmelicUserStyle = #ekmUserStyle
                     (make-ekm-acc-markup (ekm:elem->markup acc) #f))
                   (make-ekmelic-acc-markup alt #f #f)))))
     (cond
-      ((or (= DOWN tal) (eq? 'chord style))
+      ((or (= DOWN tal) chord)
         (ly:stencil-aligned-to sil Y DOWN))
       ((= CENTER tal)
         (let ((ctr (interpret-markup layout
@@ -670,7 +673,7 @@ ekmelicUserStyle = #ekmUserStyle
 
 %% ChordNames context
 
-#(define (ekm:chord-acc-set! text)
+#(define (ekm:chord-acc-set! text super)
   (if (list? text)
     (cond
       ((and (eq? raise-markup (car text))
@@ -678,9 +681,12 @@ ekmelicUserStyle = #ekmUserStyle
             (eq? accidental-markup (car (third text))))
         (set-car! text override-markup)
         (set-cdr! text
-          `((style . chord) (,ekmelic-char-text-markup ,(second (third text))))))
+          `((style . ,(if super 'super 'chord))
+            (,ekmelic-char-text-markup ,(second (third text))))))
       (else
-        (for-each ekm:chord-acc-set! text)))))
+        (for-each (lambda (t)
+          (ekm:chord-acc-set! t (or super (eq? super-markup (car text)))))
+          text)))))
 
 
 %% Initializations
@@ -758,7 +764,7 @@ ekmelicUserStyle = #ekmUserStyle
     \override AmbitusAccidental.stencil = #(ekm:acc #f)
     \override AccidentalSuggestion.stencil = #(ekm:acc #f)
     \override ChordName.stencil = #(lambda (grob)
-      (ekm:chord-acc-set! (ly:grob-property grob 'text))
+      (ekm:chord-acc-set! (ly:grob-property grob 'text) #f)
       (ly:text-interface::print grob))
 
     noteNameFunction = #ekm:note-name-markup
