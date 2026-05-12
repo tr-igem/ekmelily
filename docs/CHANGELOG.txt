@@ -321,3 +321,6 @@ Version 3.13 (20 August 2023)
   and style "super" for superscript in "\ekmelic-char-text" (issue #18).
 - "ekm:chord-acc-set!" now detects superscript parts in the markup and
   selects superscript (small) variants of accidentals.
+
+2026-05-12:
+- ekmel-main.ily: Change "ekm:chord-acc-set!" for LP 2.26.

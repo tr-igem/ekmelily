@@ -676,7 +676,8 @@ ekmelicUserStyle = #ekmUserStyle
 #(define (ekm:chord-acc-set! text super)
   (if (list? text)
     (cond
-      ((and (eq? raise-markup (car text))
+      ((and (eq? (if (ly:version? < '(2 26)) raise-markup translate-scaled-markup)
+                 (car text))
             (pair? (third text))
             (eq? accidental-markup (car (third text))))
         (set-car! text override-markup)
