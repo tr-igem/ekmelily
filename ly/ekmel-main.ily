@@ -578,9 +578,11 @@ ekmelicUserStyle = #ekmUserStyle
          (acc (assv-ref ekm:notation alt))
          (acc (or (and chord
                        acc (null? (cdr acc))
-                       (if (defined? 'ekm:assid)
-                        (ekm:assid 'chord (car acc) (ekm:mv (eq? 'super style)))
-                        (assoc-ref ekm:chord-acc (car acc))))
+                       (let* ((a (car acc))
+                              (a (if (integer? a) (ly:wide-char->utf-8 a) a)))
+                        (if (defined? 'ekm:assid)
+                         (ekm:assid 'chord a (ekm:mv (eq? 'super style)))
+                         (assoc-ref ekm:chord-acc a))))
                   acc))
          (tal (if (pair? acc) (or (assoc-ref ekm:textalign (last acc)) DOWN) DOWN))
          (sil (interpret-markup layout props

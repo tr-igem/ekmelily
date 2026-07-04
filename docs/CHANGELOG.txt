@@ -324,3 +324,7 @@ Version 3.13 (20 August 2023)
 
 2026-05-12:
 - ekmel-main.ily: Change "ekm:chord-acc-set!" for LP 2.26.
+
+2026-07-04:
+- ekmel-main.ily: Fix "\ekmelic-char-text" to draw the replaced chord
+  accidentals also in path mode.
